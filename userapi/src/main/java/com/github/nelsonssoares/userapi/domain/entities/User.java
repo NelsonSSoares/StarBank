@@ -1,6 +1,6 @@
 package com.github.nelsonssoares.userapi.domain.entities;
 
-import com.github.nelsonssoares.userapi.commons.constants.UserActive;
+import com.github.nelsonssoares.userapi.commons.constants.enums.UserActive;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -28,7 +28,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(length = 50)
     @NotEmpty(message = "Este campo não pode ser nulou ou vazio, deve conter de 2 até 50 caracteres.")
@@ -73,5 +73,7 @@ public class User implements Serializable {
 
     @NotNull
     private String agency;
+
+
 
 }
