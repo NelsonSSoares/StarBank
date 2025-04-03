@@ -45,7 +45,7 @@ public class User implements Serializable {
 
     @Column(length = 20)
     @Pattern(regexp =
-     "(/^(?:(?:\\+|00)?(55)\\s?)?(?:\\(?([1-9][0-9])\\)?\\s?)?(?:((?:9\\d|[2-9])\\d{3})\\-?(\\d{4}))$/)",
+     "(^(?:(?:\\+|00)?(55)\\s?)?(?:\\(?([1-9][0-9])\\)?\\s?)?(?:((?:9\\d|[2-9])\\d{3})\\-?(\\d{4}))$)",
             message = "Telefone Inválido")
     private String phone;
 

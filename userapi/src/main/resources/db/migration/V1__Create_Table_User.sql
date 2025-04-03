@@ -8,7 +8,7 @@ CREATE TABLE `user` (
   `email` varchar(90) NOT NULL,
   `name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
-  `modified_date` date NOT NULL,
+  `modification_date` date NOT NULL,
   `phone` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 );
