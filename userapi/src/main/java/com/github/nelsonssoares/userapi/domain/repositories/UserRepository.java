@@ -12,12 +12,12 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Query(value = "select * from usuario u where u.cpf = :cpf", nativeQuery = true)
+    @Query(value = "select * from user u where u.cpf = :cpf", nativeQuery = true)
     Optional<User> findByCpf(@Param("cpf") String cpf);
 
-    @Query(value = "select * from usuario u where u.nome like :nome%", nativeQuery = true)
+    @Query(value = "select * from user u where u.nome like :name%", nativeQuery = true)
     List<User> findByNome(@Param("nome") String nome);
 
-    @Query(value = "select * from usuario u where u.email = :email", nativeQuery = true)
+    @Query(value = "select * from user u where u.email = :email", nativeQuery = true)
     Optional<User> findByEmail(@Param("email") String email);
 }

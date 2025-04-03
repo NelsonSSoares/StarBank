@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -38,10 +39,17 @@ public class SaveUser {
         usuario.setActive(UserActive.ACTIVE);
         usuario.setCreationDate(LocalDate.now());
         usuario.setModificationDate(LocalDate.now());
+        usuario.setAgency("001");
+        usuario.setAccount(generateRandomAccountNumber());
 
         User userSaved = userRepository.save(usuario);
 
         return objectMapper.convertValue(userSaved, UserDTO.class);
 
+    }
+    private String generateRandomAccountNumber() {
+        Random random = new Random();
+        int accountNumber = 100000 + random.nextInt(900000); // Gera um número de 6 dígitos
+        return String.valueOf(accountNumber);
     }
 }

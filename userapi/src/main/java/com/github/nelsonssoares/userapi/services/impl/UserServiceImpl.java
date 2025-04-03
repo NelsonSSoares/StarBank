@@ -1,5 +1,6 @@
 package com.github.nelsonssoares.userapi.services.impl;
 
+import com.github.nelsonssoares.userapi.commons.constants.enums.UserActive;
 import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
 import com.github.nelsonssoares.userapi.services.UserService;
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
         if(usuario == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }else if(usuario.getAtivo().equals(PerguntaAtivo.NAO)) {
+        }else if(usuario.getActive().equals(UserActive.INACTIVE)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
 
         if(usuario == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else if (usuario.getAtivo().equals(PerguntaAtivo.NAO)) {
+        } else if (usuario.getActive().equals(UserActive.INACTIVE)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
@@ -79,7 +80,7 @@ public class UserServiceImpl implements UserService {
 
         if(usuario == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else if (usuario.getAtivo().equals(PerguntaAtivo.NAO)) {
+        } else if (usuario.getActive().equals(UserActive.INACTIVE)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
