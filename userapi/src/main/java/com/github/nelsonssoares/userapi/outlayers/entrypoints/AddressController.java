@@ -2,6 +2,7 @@ package com.github.nelsonssoares.userapi.outlayers.entrypoints;
 
 import com.github.nelsonssoares.userapi.domain.dtos.AddressDTO;
 import com.github.nelsonssoares.userapi.domain.entities.Address;
+import com.github.nelsonssoares.userapi.outlayers.entrypoints.docs.AddressControllerDoc;
 import com.github.nelsonssoares.userapi.services.AddressService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -15,13 +16,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.github.nelsonssoares.userapi.commons.constants.controllers.ControllersConstants.*;
+import static org.springframework.http.MediaType.*;
 
 
 @Tag(name = API_TAG_ADRESS, description = API_DESCRIPTION)
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = API_BASE_URL+ADDRESS, produces = API_PRODUCES)
-public class AddressController implements com.github.nelsonssoares.userapi.outlayers.entrypoints.docs.AddressControllerDoc {
+@RequestMapping(value = API_BASE_URL+ADDRESS, produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE, APPLICATION_YAML_VALUE})
+public class AddressController implements AddressControllerDoc {
 
     private final AddressService addressService;
 

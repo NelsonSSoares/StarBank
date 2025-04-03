@@ -1,6 +1,7 @@
 package com.github.nelsonssoares.userapi.outlayers.entrypoints;
 
 
+import com.github.nelsonssoares.userapi.commons.constants.controllers.ControllersConstants;
 import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
 import com.github.nelsonssoares.userapi.outlayers.entrypoints.docs.UserControllerDoc;
@@ -16,11 +17,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.github.nelsonssoares.userapi.commons.constants.controllers.ControllersConstants.*;
+import static org.springframework.http.MediaType.*;
 
 @Tag(name = API_TAG, description = API_DESCRIPTION)
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = API_BASE_URL, produces = API_PRODUCES)
+@RequestMapping(value = API_BASE_URL, produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE, APPLICATION_YAML_VALUE})
 //@SecurityRequirement(name = API_SECURITY_REQUIREMENT)
 public class UserController implements UserControllerDoc {
 

@@ -6,7 +6,6 @@ public class ControllersConstants {
     public static final String API_DESCRIPTION = "API para gerenciamento de usuários e seus endereços da Star Bank";
     public static final String API_VERSION = "1.0.0";
     public static final String API_TAG_ADRESS = "STAR BANK - Endereços API";
-    public static final String API_PRODUCES = "application/json";
     public static final String API_SECURITY_REQUIREMENT = "bearer-key";
     public static final String API_BASE_URL = "starbank/users";
 
