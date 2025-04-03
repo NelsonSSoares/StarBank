@@ -43,7 +43,7 @@ public class UserController implements UserControllerDoc {
         return userService.updateUser(id, userDTO);
     }
 
-
+    @PutMapping(value = ACTIVE)
     @ResponseStatus(HttpStatus.OK)
     @Override
     public ResponseEntity<User> activeUser(@PathVariable("id") Integer id) {
@@ -78,8 +78,8 @@ public class UserController implements UserControllerDoc {
     @GetMapping(value = NAME)
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public ResponseEntity<List<UserDTO>> findByName(@RequestParam("nome") String nome) {
-        return userService.findByName(nome);
+    public ResponseEntity<List<UserDTO>> findByName(@RequestParam("name") String name) {
+        return userService.findByName(name);
     }
 
 

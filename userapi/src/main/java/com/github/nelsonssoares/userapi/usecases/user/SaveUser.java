@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,11 +28,11 @@ public class SaveUser {
 
         List<User> usuarios = userRepository.findAll();
 
-        boolean result = Constraints.ExistentCPGF(usuarios, user);
+        boolean result = Constraints.ExistentCPF(usuarios, user);
         System.out.println(result);
 
         if(result == true) {
-            throw new RuntimeException("CPF Já cadastrado! " + HttpStatus.CONFLICT);
+            throw new ResponseStatusException(HttpStatus.CONFLICT , "CPF já cadastrado");
         }
 
         User usuario = objectMapper.convertValue(user, User.class);

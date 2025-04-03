@@ -18,7 +18,7 @@ public interface UserService {
 
     ResponseEntity<User> deleteUser(Integer id);
 
-    ResponseEntity<List<UserDTO>> findByName(String nome);
+    ResponseEntity<List<UserDTO>> findByName(String name);
 
     ResponseEntity<User> findByCpf(String cpf);
 

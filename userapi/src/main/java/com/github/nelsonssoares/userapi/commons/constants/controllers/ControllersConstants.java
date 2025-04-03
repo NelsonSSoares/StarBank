@@ -8,7 +8,7 @@ public class ControllersConstants {
     public static final String API_TAG_ADRESS = "STAR BANK - Endereços API";
     public static final String API_PRODUCES = "application/json";
     public static final String API_SECURITY_REQUIREMENT = "bearer-key";
-    public static final String API_BASE_URL = "starbank/usuarios";
+    public static final String API_BASE_URL = "starbank/users";
 
     // USER ENDPOINTS
 
@@ -16,13 +16,13 @@ public class ControllersConstants {
     public static final String ID = "/{id}";
     public static final String CPF = "/cpf/{cpf}";
 
-    public static final String NAME = "/nome";
+    public static final String NAME = "/name";
     public static final String ACTIVE = "/active/{id}";
 
     // ADDRESS ENDPOINTS
 
-    public static final String ADDRESS = "/endereco";
-    public static final String ADDRESS_ID = "/endereco/{id}";
-    public static final String ADDRESS_USER_ID = "/usuario/{id}";
+    public static final String ADDRESS = "/address";
+    public static final String ADDRESS_ID = "/address/{id}";
+    public static final String ADDRESS_USER_ID = "/users/{id}";
 
 }

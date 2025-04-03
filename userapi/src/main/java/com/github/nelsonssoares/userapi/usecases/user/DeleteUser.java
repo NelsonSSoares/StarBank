@@ -23,14 +23,16 @@ public class DeleteUser {
 
         Optional<User> usuario = userRepository.findById(id);
 
-        if(usuario.isEmpty()){
-            return null;
-        } else if (usuario.get().getActive().equals(UserActive.INACTIVE)){
-            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        if (usuario.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
+        } else if (usuario.get().getActive().equals(UserActive.INACTIVE)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Usuário já inativo");
         }
+
 
         User user  = usuario.get();
         user.setActive(UserActive.INACTIVE);
+
 
         return userRepository.save(user);
     }

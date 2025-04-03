@@ -21,7 +21,7 @@ public class Constraints {
         return usuarios;
     }
 
-    public static boolean ExistentCPGF(List<User> usuarios, UserDTO usuario){
+    public static boolean ExistentCPF(List<User> usuarios, UserDTO usuario){
 
         Iterator<User> iterator = usuarios.iterator();
         while(iterator.hasNext()) {
