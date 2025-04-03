@@ -1,9 +1,8 @@
 package com.github.nelsonssoares.userapi.usecases.address;
 
+import com.github.nelsonssoares.userapi.domain.entities.Address;
+import com.github.nelsonssoares.userapi.domain.repositories.AddressRepository;
 import lombok.RequiredArgsConstructor;
-import nelsonssoares.ecomuserapi.domain.entities.Endereco;
-import nelsonssoares.ecomuserapi.domain.repository.EnderecoRepository;
-import nelsonssoares.ecomuserapi.domain.repository.UsuarioRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +12,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GetAllAddresses {
 
-    private final EnderecoRepository enderecoRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final AddressRepository addressRepository;
 
-    public List<Endereco> executeAllAddresses(Pageable paginacao) {
 
-        return enderecoRepository.findActiveAddresses(paginacao);
+    public List<Address> executeAllAddresses(Pageable paginacao) {
+
+        return addressRepository.findActiveAddresses(paginacao);
 
     }
 }

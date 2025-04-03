@@ -1,6 +1,6 @@
 package com.github.nelsonssoares.userapi.domain.entities;
 
-import com.github.nelsonssoares.userapi.commons.constants.enums.Country;
+import com.github.nelsonssoares.userapi.commons.constants.enums.Countries;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -23,7 +23,7 @@ public class Address implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(length = 45)
@@ -59,7 +59,7 @@ public class Address implements Serializable {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private Country country;
+    private Countries country;
 
 
     private Integer userId;

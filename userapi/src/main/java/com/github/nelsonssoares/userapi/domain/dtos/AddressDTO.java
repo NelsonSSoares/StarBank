@@ -9,6 +9,8 @@ public record AddressDTO(
         String zipCode,
         String neighborhood,
         String city,
-        String state
+        String state,
+        Integer userId,
+        String country
 ) {
 }

@@ -1,13 +1,13 @@
 package com.github.nelsonssoares.userapi.usecases.address;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nelsonssoares.userapi.commons.constants.enums.Countries;
+import com.github.nelsonssoares.userapi.domain.dtos.AddressDTO;
+import com.github.nelsonssoares.userapi.domain.entities.Address;
+import com.github.nelsonssoares.userapi.domain.entities.User;
+import com.github.nelsonssoares.userapi.domain.repositories.AddressRepository;
+import com.github.nelsonssoares.userapi.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import nelsonssoares.ecomuserapi.domain.dtos.EnderecoDTO;
-import nelsonssoares.ecomuserapi.domain.entities.Endereco;
-import nelsonssoares.ecomuserapi.domain.entities.Usuario;
-import nelsonssoares.ecomuserapi.domain.entities.enums.Pais;
-import nelsonssoares.ecomuserapi.domain.repository.EnderecoRepository;
-import nelsonssoares.ecomuserapi.domain.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,22 +17,22 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SaveAddress {
 
-    private final EnderecoRepository enderecoRepository;
+    private final AddressRepository addressRepository;
     private final ObjectMapper objectMapper;
-    private final UsuarioRepository usuarioRepository;
+    private final UserRepository userRepository;
 
     @Transactional
-    public Endereco executeSaveAddress(EnderecoDTO enderecoDTO) {
+    public Address executeSaveAddress(AddressDTO addressDTO) {
 
-        Endereco endereco = objectMapper.convertValue(enderecoDTO, Endereco.class);
-        Optional<Usuario> usuarioId = usuarioRepository.findById(enderecoDTO.usuarioId());
+        Address address = objectMapper.convertValue(addressDTO, Address.class);
+        Optional<User> usuarioId = userRepository.findById(addressDTO.userId());
         if(usuarioId.isPresent()){
-            String pais = enderecoDTO.pais().toUpperCase();
-            Pais paisConverted = Pais.valueOf(pais);
-            endereco.setPais(paisConverted);
-            endereco.setUsuarioId(usuarioId.get().getId());
-            enderecoRepository.save(endereco);
-            return endereco;
+            String pais = addressDTO.country().toUpperCase();
+            Countries contryConverted = Countries.valueOf(pais);
+            address.setCountry(contryConverted);
+            address.setUserId(usuarioId.get().getId());
+            addressRepository.save(address);
+            return address;
         }else {
            return null;
         }

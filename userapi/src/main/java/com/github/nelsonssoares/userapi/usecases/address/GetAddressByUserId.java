@@ -1,11 +1,11 @@
 package com.github.nelsonssoares.userapi.usecases.address;
 
 
+import com.github.nelsonssoares.userapi.domain.entities.Address;
+import com.github.nelsonssoares.userapi.domain.entities.User;
+import com.github.nelsonssoares.userapi.domain.repositories.AddressRepository;
+import com.github.nelsonssoares.userapi.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import nelsonssoares.ecomuserapi.domain.entities.Endereco;
-import nelsonssoares.ecomuserapi.domain.entities.Usuario;
-import nelsonssoares.ecomuserapi.domain.repository.EnderecoRepository;
-import nelsonssoares.ecomuserapi.domain.repository.UsuarioRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,20 +17,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GetAddressByUserId {
 
-    private final EnderecoRepository enderecoRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final AddressRepository addressRepository;
+    private final UserRepository userRepository;
 
-    public List<Endereco> executeAddressByUserId(Integer id) {
-        Optional<Usuario> usuario = usuarioRepository.findById(id);
+    public List<Address> executeAddressByUserId(Integer id) {
+        Optional<User> user = userRepository.findById(id);
 
-        if (usuario.isEmpty()) {
+        if (user.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado");
         }
-        List<Endereco> enderecos = enderecoRepository.findAllByUsuarioId(id);
-        if (enderecos.isEmpty()) {
+        List<Address> addresses = addressRepository.findAllByUserId(id);
+        if (addresses.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Endereço não encontrado");
         }
 
-        return enderecos;
+        return addresses;
     }
 }

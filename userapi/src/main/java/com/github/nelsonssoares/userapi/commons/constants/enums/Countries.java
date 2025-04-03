@@ -1,6 +1,6 @@
 package com.github.nelsonssoares.userapi.commons.constants.enums;
 
-public enum Country {
+public enum Countries {
     AFEGANISTAO("Afeganistão", "+93", "Ásia"),
     AFRICA_DO_SUL("África do Sul", "+27", "África"),
     ALBANIA("Albânia", "+355", "Europa"),
@@ -197,7 +197,7 @@ public enum Country {
     private final String ddi;
     private final String continente;
 
-    Country(String nome, String ddi, String continente) {
+    Countries(String nome, String ddi, String continente) {
         this.nome = nome;
         this.ddi = ddi;
         this.continente = continente;

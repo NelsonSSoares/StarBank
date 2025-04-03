@@ -1,13 +1,13 @@
 package com.github.nelsonssoares.userapi.usecases.address;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.nelsonssoares.userapi.commons.constants.enums.UserActive;
+import com.github.nelsonssoares.userapi.domain.dtos.AddressDTO;
+import com.github.nelsonssoares.userapi.domain.entities.Address;
+import com.github.nelsonssoares.userapi.domain.entities.User;
+import com.github.nelsonssoares.userapi.domain.repositories.AddressRepository;
+import com.github.nelsonssoares.userapi.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import nelsonssoares.ecomuserapi.domain.dtos.EnderecoDTO;
-import nelsonssoares.ecomuserapi.domain.entities.Endereco;
-import nelsonssoares.ecomuserapi.domain.entities.Usuario;
-import nelsonssoares.ecomuserapi.domain.entities.enums.PerguntaAtivo;
-import nelsonssoares.ecomuserapi.domain.repository.EnderecoRepository;
-import nelsonssoares.ecomuserapi.domain.repository.UsuarioRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,28 +19,27 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UpdateAddress {
 
-    private final UsuarioRepository usuarioRepository;
-    private final EnderecoRepository enderecoRepository;
+    private final UserRepository usuarioRepository;
+    private final AddressRepository enderecoRepository;
     private final ObjectMapper objectMapper;
 
     @Transactional
-    public Endereco executeUpdateAddress(Integer id, EnderecoDTO endDto) {
-        Optional<Endereco> endereco = enderecoRepository.findById(id);
+    public Address executeUpdateAddress(Integer id, AddressDTO endDto) {
+        Optional<Address> endereco = enderecoRepository.findById(id);
 
         if(endereco.isEmpty() ){
             return null;
         }
-        Endereco adress = endereco.get();
-        Optional<Usuario> usuario = usuarioRepository.findById(adress.getUsuarioId());
+        Address adress = endereco.get();
+        Optional<User> usuario = usuarioRepository.findById(adress.getUserId());
 
-        if(usuario.get().getAtivo().equals(PerguntaAtivo.NAO) || usuario.isEmpty()){
+        if(usuario.get().getActive().equals(UserActive.INACTIVE) || usuario.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado!");
         }
 
-        Endereco enderecoAtualizado = objectMapper.convertValue(endDto, Endereco.class);
+        Address enderecoAtualizado = objectMapper.convertValue(endDto, Address.class);
         enderecoAtualizado.setId(id);
-        enderecoAtualizado.setEnderecoPadrao(endDto.enderecoPadrao());
-        enderecoAtualizado.setUsuarioId(adress.getUsuarioId());
+        enderecoAtualizado.setUserId(adress.getUserId());
         enderecoRepository.save(enderecoAtualizado);
         return enderecoAtualizado;
     }
