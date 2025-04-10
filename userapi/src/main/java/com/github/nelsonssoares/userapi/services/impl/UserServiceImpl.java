@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final GetUserByEmail getUserByEmail;
     private final ActiveUser activeUser;
 
+
     @Override
     public ResponseEntity<UserDTO> save(UserDTO dto) {
 
@@ -118,4 +119,6 @@ public class UserServiceImpl implements UserService {
 
         return usuario == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() : ResponseEntity.ok(usuario);
     }
+
+
 }

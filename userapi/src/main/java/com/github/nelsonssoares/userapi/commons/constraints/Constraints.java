@@ -26,7 +26,7 @@ public class Constraints {
         Iterator<User> iterator = usuarios.iterator();
         while(iterator.hasNext()) {
             User user = iterator.next();
-            if(user.getCpf().equals(usuario.cpf())) {
+            if(user.getCpf().equals(usuario.getCpf())) {
                 return true;
             }
         }

@@ -1,12 +1,22 @@
 package com.github.nelsonssoares.userapi.domain.dtos;
 
-public record UserDTO(
-        String name,
-        String lastName,
-        String cpf,
-        String phone,
-        String email,
-        String account,
-        String agency
-) {
+import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
+
+import java.io.Serializable;
+
+
+@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserDTO  extends RepresentationModel<UserDTO> implements Serializable {
+    public String name;
+    public String lastName;
+    public String cpf;
+    public String phone;
+    public String email;
+    public String account;
+    public String agency;
 }

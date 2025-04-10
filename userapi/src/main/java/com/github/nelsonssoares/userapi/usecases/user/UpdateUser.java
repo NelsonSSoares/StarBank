@@ -26,10 +26,10 @@ public class UpdateUser {
         }
         User user = usuario.get();
         user.setModificationDate(LocalDate.now());
-        user.setName(userDTO.name());
-        user.setLastName(userDTO.lastName());
-        user.setEmail(userDTO.email());
-        user.setPhone(userDTO.phone());
+        user.setName(userDTO.getName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setPhone(userDTO.getPhone());
 
         return userRepository.save(user);
     }
