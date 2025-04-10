@@ -25,9 +25,9 @@ public class SaveAddress {
     public Address executeSaveAddress(AddressDTO addressDTO) {
 
         Address address = objectMapper.convertValue(addressDTO, Address.class);
-        Optional<User> usuarioId = userRepository.findById(addressDTO.userId());
+        Optional<User> usuarioId = userRepository.findById(addressDTO.getUserId());
         if(usuarioId.isPresent()){
-            String pais = addressDTO.country().toUpperCase();
+            String pais = addressDTO.getCountry().toUpperCase();
             Countries contryConverted = Countries.valueOf(pais);
             address.setCountry(contryConverted);
             address.setUserId(usuarioId.get().getId());
