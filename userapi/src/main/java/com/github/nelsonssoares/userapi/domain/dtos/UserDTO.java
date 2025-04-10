@@ -12,6 +12,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO  extends RepresentationModel<UserDTO> implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private Integer id;
     public String name;
     public String lastName;
     public String cpf;

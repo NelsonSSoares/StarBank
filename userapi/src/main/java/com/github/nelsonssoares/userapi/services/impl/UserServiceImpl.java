@@ -1,17 +1,23 @@
 package com.github.nelsonssoares.userapi.services.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nelsonssoares.userapi.commons.constants.enums.UserActive;
 import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
+import com.github.nelsonssoares.userapi.outlayers.entrypoints.UserController;
 import com.github.nelsonssoares.userapi.services.UserService;
 import com.github.nelsonssoares.userapi.usecases.user.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private final GetUserByCpf getUserByCpf;
     private final GetUserByEmail getUserByEmail;
     private final ActiveUser activeUser;
-
+    private final ObjectMapper objectMapper;
 
     @Override
     public ResponseEntity<UserDTO> save(UserDTO dto) {
@@ -44,6 +50,9 @@ public class UserServiceImpl implements UserService {
         if(usuarios.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
+        for (UserDTO usuario : usuarios) {
+            addHateoasLinks(usuario);
+        }
         return ResponseEntity.ok(usuarios);
     }
 
@@ -57,6 +66,9 @@ public class UserServiceImpl implements UserService {
         }else if(usuario.getActive().equals(UserActive.INACTIVE)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+
+        UserDTO dto = objectMapper.convertValue(usuario, UserDTO.class);
+        addHateoasLinks(dto);
 
         return ResponseEntity.status(HttpStatus.OK).body(usuario);
     }
@@ -72,6 +84,9 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
+        UserDTO dto = objectMapper.convertValue(usuario, UserDTO.class);
+        addHateoasLinks(dto);
+
         return ResponseEntity.status(HttpStatus.OK).body(usuario);
     }
 
@@ -84,6 +99,8 @@ public class UserServiceImpl implements UserService {
         } else if (usuario.getActive().equals(UserActive.INACTIVE)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
+        UserDTO dto = objectMapper.convertValue(usuario, UserDTO.class);
+        addHateoasLinks(dto);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -93,6 +110,10 @@ public class UserServiceImpl implements UserService {
 
         List<UserDTO> usuarios = getUserByName.executeUserByName(nome);
 
+        for (UserDTO usuario : usuarios) {
+            addHateoasLinks(usuario);
+        }
+
         return usuarios.isEmpty() ? ResponseEntity.status(HttpStatus.NO_CONTENT).build() : ResponseEntity.ok(usuarios);
     }
 
@@ -100,6 +121,9 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<User> findByCpf(String cpf) {
 
         User usuario = getUserByCpf.executeUserByCpf(cpf);
+
+        UserDTO dto = objectMapper.convertValue(usuario, UserDTO.class);
+        addHateoasLinks(dto);
 
         return usuario == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() : ResponseEntity.ok(usuario);
     }
@@ -109,6 +133,9 @@ public class UserServiceImpl implements UserService {
 
         User usuario = activeUser.executeActiveUser(id);
 
+        UserDTO dto = objectMapper.convertValue(usuario, UserDTO.class);
+        addHateoasLinks(dto);
+
         return usuario == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() : ResponseEntity.ok(usuario);
     }
 
@@ -117,8 +144,21 @@ public class UserServiceImpl implements UserService {
 
         UserDTO usuario = getUserByEmail.executeUserByEmail(email);
 
+        addHateoasLinks(usuario);
+
         return usuario == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() : ResponseEntity.ok(usuario);
     }
 
+    private static void addHateoasLinks(UserDTO dto) {
+        dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
+        dto.add(linkTo(methodOn(UserController.class).deleteUser(dto.getId())).withRel("deleteUser").withType("DELETE"));
+        dto.add(linkTo(methodOn(UserController.class).findAll(PageRequest.of(0, 10))).withRel("findAll").withType("GET"));
+        dto.add(linkTo(methodOn(UserController.class).save(dto)).withRel("save").withType("POST"));
+        dto.add(linkTo(methodOn(UserController.class).updateUser(dto.getId(), dto)).withRel("updateUser").withType("PUT"));
+        dto.add(linkTo(methodOn(UserController.class).activeUser(dto.getId())).withRel("activeUser").withType("PUT"));
+        dto.add(linkTo(methodOn(UserController.class).findByName(dto.getName())).withRel("findByName").withType("GET"));
+        dto.add(linkTo(methodOn(UserController.class).findByCPF(dto.getCpf())).withRel("findByCpf").withType("GET"));
+        dto.add(linkTo(methodOn(UserController.class).findByEmail(dto.getEmail())).withRel("findByEmail").withType("GET"));
 
+    }
 }
