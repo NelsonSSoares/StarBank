@@ -2,15 +2,20 @@ package com.github.nelsonssoares.userapi.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nelsonssoares.userapi.commons.constants.enums.UserActive;
+import com.github.nelsonssoares.userapi.commons.constraints.Constraints;
 import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
 import com.github.nelsonssoares.userapi.outlayers.entrypoints.UserController;
 import com.github.nelsonssoares.userapi.services.UserService;
 import com.github.nelsonssoares.userapi.usecases.user.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -34,6 +39,7 @@ public class UserServiceImpl implements UserService {
     private final GetUserByEmail getUserByEmail;
     private final ActiveUser activeUser;
     private final ObjectMapper objectMapper;
+    private final PagedResourcesAssembler assembler;
 
     @Override
     public ResponseEntity<UserDTO> save(UserDTO dto) {
@@ -44,18 +50,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<List<UserDTO>> findAll(Pageable paginacao) {
+    public PagedModel<EntityModel<UserDTO>> findAll(Pageable pageable) {
+        Page<UserDTO> usuariosDtoPage = getAllUsers.executeAllUsers(pageable);
 
-        List<UserDTO> usuarios = getAllUsers.executeAllUsers(paginacao);
+        usuariosDtoPage.forEach(this::addHateoasLinks);
 
-        if(usuarios.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
-        for (UserDTO usuario : usuarios) {
-            addHateoasLinks(usuario);
-        }
-        return ResponseEntity.ok(usuarios);
+        return assembler.toModel(usuariosDtoPage);
     }
+
+//    @Override
+//    public ResponseEntity<List<UserDTO>> findAll(Pageable paginacao) {
+//
+//        List<UserDTO> usuarios = getAllUsers.executeAllUsers(paginacao);
+//
+//        if(usuarios.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+//        }
+//        for (UserDTO usuario : usuarios) {
+//            addHateoasLinks(usuario);
+//        }
+//        return ResponseEntity.ok(usuarios);
+//    }
 
     @Override
     public ResponseEntity<User> findById(Integer id) {
@@ -150,7 +165,7 @@ public class UserServiceImpl implements UserService {
         return usuario == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() : ResponseEntity.ok(usuario);
     }
 
-    private static void addHateoasLinks(UserDTO dto) {
+    private void addHateoasLinks(UserDTO dto) {
         dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).deleteUser(dto.getId())).withRel("deleteUser").withType("DELETE"));
         dto.add(linkTo(methodOn(UserController.class).findAll(0, 10, "asc")).withRel("findAll").withType("GET"));

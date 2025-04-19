@@ -2,6 +2,7 @@ package com.github.nelsonssoares.userapi.domain.dtos;
 
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.io.Serializable;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Relation(collectionRelation = "usersdd")
 public class UserDTO  extends RepresentationModel<UserDTO> implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;

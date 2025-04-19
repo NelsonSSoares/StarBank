@@ -3,6 +3,8 @@ package com.github.nelsonssoares.userapi.services;
 import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -10,7 +12,7 @@ import java.util.List;
 public interface UserService {
     ResponseEntity<UserDTO> save(UserDTO dto);
 
-    ResponseEntity<List<UserDTO>> findAll(Pageable paginacao);
+    PagedModel<EntityModel<UserDTO>> findAll(Pageable paginacao);
 
     ResponseEntity<User> findById(Integer id);
 

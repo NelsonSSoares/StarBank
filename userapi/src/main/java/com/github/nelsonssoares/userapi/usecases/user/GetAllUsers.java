@@ -7,6 +7,7 @@ import com.github.nelsonssoares.userapi.domain.entities.User;
 import com.github.nelsonssoares.userapi.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +21,27 @@ public class GetAllUsers {
     private final UserRepository usuarioRepository;
     private final ObjectMapper objectMapper;
 
-    public List<UserDTO> executeAllUsers(Pageable paginacao) {
-
-        Page<User> usuarios =  usuarioRepository.findAll(paginacao);
+    public Page<UserDTO> executeAllUsers(Pageable paginacao) {
+        Page<User> usuarios = usuarioRepository.findAll(paginacao);
         Page<User> usuariosAtivos = Constraints.usersActivePage(usuarios);
-        List<UserDTO> usuariosConverted = new ArrayList<>();
-        for (User usuarioAtivacted : usuariosAtivos) {
-            UserDTO usuarioDto = objectMapper.convertValue(usuarioAtivacted, UserDTO.class);
-            usuariosConverted.add(usuarioDto);
-        }
 
-        return usuariosConverted.isEmpty() ? null : usuariosConverted;
+        List<UserDTO> usuariosConverted = usuariosAtivos
+                .stream()
+                .map(user -> objectMapper.convertValue(user, UserDTO.class))
+                .toList();
+
+        return new PageImpl<>(usuariosConverted, paginacao, usuariosAtivos.getTotalElements());
     }
+//    public List<UserDTO> executeAllUsers(Pageable paginacao) {
+//
+//        Page<User> usuarios =  usuarioRepository.findAll(paginacao);
+//        Page<User> usuariosAtivos = Constraints.usersActivePage(usuarios);
+//        List<UserDTO> usuariosConverted = new ArrayList<>();
+//        for (User usuarioAtivacted : usuariosAtivos) {
+//            UserDTO usuarioDto = objectMapper.convertValue(usuarioAtivacted, UserDTO.class);
+//            usuariosConverted.add(usuarioDto);
+//        }
+//
+//        return usuariosConverted.isEmpty() ? null : usuariosConverted;
+//    }
 }

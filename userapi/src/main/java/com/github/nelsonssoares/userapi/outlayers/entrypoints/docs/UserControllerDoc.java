@@ -6,14 +6,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.github.nelsonssoares.userapi.commons.constants.controllers.ControllersConstants.*;
 
 public interface UserControllerDoc {
     @Operation(summary = "Metodo para cadastrar novo usuário", method = "POST")
@@ -64,7 +62,7 @@ public interface UserControllerDoc {
             @ApiResponse(responseCode = "403", description = "Não Autorizado!"),
             @ApiResponse(responseCode = "500", description = "Erro ao buscar usuário!")
     })
-    ResponseEntity<List<UserDTO>> findAll(
+    ResponseEntity<PagedModel<EntityModel<UserDTO>>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "12") Integer size,
             @RequestParam(value = "direction", defaultValue = "asc") String direction
