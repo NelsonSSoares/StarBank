@@ -40,13 +40,13 @@ public class User implements Serializable {
 
     @Column(length = 14)
     @NotEmpty(message = "Informe CPF Válido! EX: 123.456.789-10")
-    @CPF(message = "Informe CPF Válido! EX: 123.456.789-10")
+    //@CPF(message = "Informe CPF Válido! EX: 123.456.789-10")
     private String cpf;
 
     @Column(length = 20)
-    @Pattern(regexp =
-     "(^(?:(?:\\+|00)?(55)\\s?)?(?:\\(?([1-9][0-9])\\)?\\s?)?(?:((?:9\\d|[2-9])\\d{3})\\-?(\\d{4}))$)",
-            message = "Telefone Inválido")
+//    @Pattern(regexp =
+//     "(^(?:(?:\\+|00)?(55)\\s?)?(?:\\(?([1-9][0-9])\\)?\\s?)?(?:((?:9\\d|[2-9])\\d{3})\\-?(\\d{4}))$)",
+//            message = "Telefone Inválido")
     private String phone;
 
     @Email

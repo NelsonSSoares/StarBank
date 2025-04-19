@@ -2,10 +2,9 @@ package com.github.nelsonssoares.userapi.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nelsonssoares.userapi.domain.dtos.AddressDTO;
-import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.Address;
 import com.github.nelsonssoares.userapi.outlayers.entrypoints.AddressController;
-import com.github.nelsonssoares.userapi.outlayers.entrypoints.UserController;
+import com.github.nelsonssoares.userapi.services.AddressService;
 import com.github.nelsonssoares.userapi.usecases.address.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +20,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 @RequiredArgsConstructor
-public class AddressServiceImpl implements com.github.nelsonssoares.userapi.services.AddressService {
+public class AddressServiceImpl implements AddressService {
 
     private final SaveAddress saveAddress;
     private final GetAllAddresses getAllAddresses;

@@ -1,7 +1,7 @@
 package com.github.nelsonssoares.userapi.outlayers.entrypoints;
 
 
-import com.github.nelsonssoares.userapi.commons.constants.controllers.ControllersConstants;
+
 import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
 import com.github.nelsonssoares.userapi.outlayers.entrypoints.docs.UserControllerDoc;
