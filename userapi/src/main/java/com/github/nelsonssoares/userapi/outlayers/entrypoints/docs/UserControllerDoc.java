@@ -64,7 +64,11 @@ public interface UserControllerDoc {
             @ApiResponse(responseCode = "403", description = "Não Autorizado!"),
             @ApiResponse(responseCode = "500", description = "Erro ao buscar usuário!")
     })
-    ResponseEntity<List<UserDTO>> findAll(Pageable paginacao);
+    ResponseEntity<List<UserDTO>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction
+    );
 
     @Operation(summary = "Busca usuario cadastrado por ID", method = "GET")
     @ApiResponses(value = {

@@ -9,7 +9,9 @@ import com.github.nelsonssoares.userapi.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -65,10 +67,14 @@ public class UserController implements UserControllerDoc {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public ResponseEntity<List<UserDTO>> findAll(Pageable paginacao) {
+    public ResponseEntity<List<UserDTO>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction) {
+        var sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        var paginacao = PageRequest.of(page, size, Sort.by(sortDirection, "name"));
         return userService.findAll(paginacao);
     }
-
 
     @GetMapping(value = ID)
     @ResponseStatus(HttpStatus.OK)

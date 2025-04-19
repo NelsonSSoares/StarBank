@@ -10,6 +10,7 @@ import com.github.nelsonssoares.userapi.usecases.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -152,7 +153,7 @@ public class UserServiceImpl implements UserService {
     private static void addHateoasLinks(UserDTO dto) {
         dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).deleteUser(dto.getId())).withRel("deleteUser").withType("DELETE"));
-        dto.add(linkTo(methodOn(UserController.class).findAll(PageRequest.of(0, 10))).withRel("findAll").withType("GET"));
+        dto.add(linkTo(methodOn(UserController.class).findAll(0, 10, "asc")).withRel("findAll").withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).save(dto)).withRel("save").withType("POST"));
         dto.add(linkTo(methodOn(UserController.class).updateUser(dto.getId(), dto)).withRel("updateUser").withType("PUT"));
         dto.add(linkTo(methodOn(UserController.class).activeUser(dto.getId())).withRel("activeUser").withType("PUT"));
