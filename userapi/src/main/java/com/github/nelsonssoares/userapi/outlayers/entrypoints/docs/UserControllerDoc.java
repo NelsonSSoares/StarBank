@@ -11,8 +11,6 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 public interface UserControllerDoc {
     @Operation(summary = "Metodo para cadastrar novo usuário", method = "POST")
     @ApiResponses(value = {
@@ -84,7 +82,12 @@ public interface UserControllerDoc {
             @ApiResponse(responseCode = "403", description = "Não Autorizado!"),
             @ApiResponse(responseCode = "500", description = "Erro ao buscar usuário!")
     })
-    ResponseEntity<List<UserDTO>> findByName(@RequestParam("nome") String nome);
+    ResponseEntity<PagedModel<EntityModel<UserDTO>>> findByName(
+            @PathVariable(value = "nome") String nome,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction
+            );
 
     @Operation(summary = "Busca usuario cadastrado por CPF", method = "GET")
     @ApiResponses(value = {

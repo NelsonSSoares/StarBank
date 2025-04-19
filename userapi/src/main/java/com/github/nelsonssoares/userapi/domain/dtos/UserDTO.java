@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Relation(collectionRelation = "usersdd")
+@Relation(collectionRelation = "users")
 public class UserDTO  extends RepresentationModel<UserDTO> implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;

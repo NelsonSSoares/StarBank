@@ -122,15 +122,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<List<UserDTO>> findByName(String nome) {
+    public PagedModel<EntityModel<UserDTO>> findAByName(String name, Pageable pageable) {
+        Page<UserDTO> usuariosDtoPage = getUserByName.executeUserByName(name, pageable);
 
-        List<UserDTO> usuarios = getUserByName.executeUserByName(nome);
+        usuariosDtoPage.forEach(this::addHateoasLinks);
 
-        for (UserDTO usuario : usuarios) {
-            addHateoasLinks(usuario);
-        }
-
-        return usuarios.isEmpty() ? ResponseEntity.status(HttpStatus.NO_CONTENT).build() : ResponseEntity.ok(usuarios);
+        return assembler.toModel(usuariosDtoPage);
     }
 
     @Override
@@ -172,7 +169,7 @@ public class UserServiceImpl implements UserService {
         dto.add(linkTo(methodOn(UserController.class).save(dto)).withRel("save").withType("POST"));
         dto.add(linkTo(methodOn(UserController.class).updateUser(dto.getId(), dto)).withRel("updateUser").withType("PUT"));
         dto.add(linkTo(methodOn(UserController.class).activeUser(dto.getId())).withRel("activeUser").withType("PUT"));
-        dto.add(linkTo(methodOn(UserController.class).findByName(dto.getName())).withRel("findByName").withType("GET"));
+        dto.add(linkTo(methodOn(UserController.class).findByName(dto.getName(), 0, 10, "asc")).withRel("findByName").withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).findByCPF(dto.getCpf())).withRel("findByCpf").withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).findByEmail(dto.getEmail())).withRel("findByEmail").withType("GET"));
 

@@ -20,7 +20,7 @@ public interface UserService {
 
     ResponseEntity<User> deleteUser(Integer id);
 
-    ResponseEntity<List<UserDTO>> findByName(String name);
+    PagedModel<EntityModel<UserDTO>> findAByName(String firstName, Pageable pageable);
 
     ResponseEntity<User> findByCpf(String cpf);
 

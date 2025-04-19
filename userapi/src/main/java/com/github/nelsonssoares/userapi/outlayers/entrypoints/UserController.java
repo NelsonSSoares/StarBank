@@ -17,8 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 import static com.github.nelsonssoares.userapi.commons.constants.controllers.ControllersConstants.*;
 import static org.springframework.http.MediaType.*;
 
@@ -88,8 +86,16 @@ public class UserController implements UserControllerDoc {
     @GetMapping(value = NAME)
     @ResponseStatus(HttpStatus.OK)
     @Override
-    public ResponseEntity<List<UserDTO>> findByName(@RequestParam("name") String name) {
-        return userService.findByName(name);
+    public ResponseEntity<PagedModel<EntityModel<UserDTO>>> findByName(
+            @PathVariable(value = "name") String name,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction
+            ) {
+        var sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        var paginacao = PageRequest.of(page, size, Sort.by(sortDirection, "name"));
+        var result = userService.findAByName(name,paginacao);
+        return ResponseEntity.ok(result);
     }
 
 

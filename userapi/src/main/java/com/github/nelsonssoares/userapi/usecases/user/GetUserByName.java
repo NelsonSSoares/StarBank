@@ -6,6 +6,9 @@ import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
 import com.github.nelsonssoares.userapi.domain.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,18 +20,16 @@ public class GetUserByName {
 
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
-    public List<UserDTO> executeUserByName(String nome) {
+    public Page<UserDTO> executeUserByName(String nome, Pageable pageable) {
+        Page<User> usuarios = userRepository.findByNome(nome, pageable);
 
-        List<User> usuario = userRepository.findByNome(nome);
+        Page<User> usuariosAtivos = Constraints.usersActivePage(usuarios);
 
-        List<User> usuariosAtivos = Constraints.usuariosAtivosList(usuario);
-        List<UserDTO> usuariosConverted = new ArrayList<>();
+        List<UserDTO> usuariosConverted = usuariosAtivos
+                .stream()
+                .map(user -> objectMapper.convertValue(user, UserDTO.class))
+                .toList();
 
-        for (User usuarioAtivacted : usuariosAtivos) {
-            UserDTO usuarioDto = objectMapper.convertValue(usuarioAtivacted, UserDTO.class);
-            usuariosConverted.add(usuarioDto);
-        }
-        return usuariosConverted;
-
+        return new PageImpl<>(usuariosConverted, pageable, usuariosAtivos.getTotalElements());
     }
 }
