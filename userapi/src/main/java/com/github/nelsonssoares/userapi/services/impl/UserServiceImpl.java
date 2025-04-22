@@ -19,6 +19,7 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -53,24 +54,15 @@ public class UserServiceImpl implements UserService {
     public PagedModel<EntityModel<UserDTO>> findAll(Pageable pageable) {
         Page<UserDTO> usuariosDtoPage = getAllUsers.executeAllUsers(pageable);
 
+        if(usuariosDtoPage.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Não há usuários cadastrados.");
+        }
+
         usuariosDtoPage.forEach(this::addHateoasLinks);
 
         return assembler.toModel(usuariosDtoPage);
     }
 
-//    @Override
-//    public ResponseEntity<List<UserDTO>> findAll(Pageable paginacao) {
-//
-//        List<UserDTO> usuarios = getAllUsers.executeAllUsers(paginacao);
-//
-//        if(usuarios.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-//        }
-//        for (UserDTO usuario : usuarios) {
-//            addHateoasLinks(usuario);
-//        }
-//        return ResponseEntity.ok(usuarios);
-//    }
 
     @Override
     public ResponseEntity<User> findById(Integer id) {
@@ -124,6 +116,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public PagedModel<EntityModel<UserDTO>> findAByName(String name, Pageable pageable) {
         Page<UserDTO> usuariosDtoPage = getUserByName.executeUserByName(name, pageable);
+
+        if(usuariosDtoPage.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Não há usuários cadastrados com este nome.");
+        }
 
         usuariosDtoPage.forEach(this::addHateoasLinks);
 
