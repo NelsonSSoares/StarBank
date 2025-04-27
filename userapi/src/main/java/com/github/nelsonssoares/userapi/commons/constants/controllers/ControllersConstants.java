@@ -17,6 +17,7 @@ public class ControllersConstants {
 
     public static final String NAME = "/name/{name}";
     public static final String ACTIVE = "/active/{id}";
+    public static final String PHOTO = "/{id}/photo";
 
     // ADDRESS ENDPOINTS
 

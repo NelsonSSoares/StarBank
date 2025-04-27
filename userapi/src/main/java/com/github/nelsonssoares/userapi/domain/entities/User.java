@@ -74,6 +74,8 @@ public class User implements Serializable {
     @NotNull
     private String agency;
 
+    private String photo;
+
 
 
 }

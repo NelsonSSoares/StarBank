@@ -10,6 +10,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UserControllerDoc {
     @Operation(summary = "Metodo para cadastrar novo usuário", method = "POST")
@@ -106,4 +107,5 @@ public interface UserControllerDoc {
             @ApiResponse(responseCode = "500", description = "Erro ao buscar usuário!")
     })
     ResponseEntity<UserDTO> findByEmail(@PathVariable("email") String email);
+
 }

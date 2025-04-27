@@ -23,4 +23,5 @@ public class UserDTO  extends RepresentationModel<UserDTO> implements Serializab
     public String email;
     public String account;
     public String agency;
+    public String photo;
 }

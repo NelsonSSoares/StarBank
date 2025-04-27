@@ -6,6 +6,16 @@
 #    service-url:
 #      defaultZone: http://localhost:8761/eureka
 #    fetch-registry: 'true'
+
+# Configuração para upload e download de arquivos
+file:
+  upload-dir: C:\Users\Nelson\OneDrive\Área de Trabalho\Projetos\SpringBoot\starbank\userapi\files
+  download-dir: C:\Users\Nelson\Downloads
+  max-file-size: 200MB
+  max-request-size: 215MB
+  #Configuração de CORS
+#cors:
+#  originsPatterns: http://localhost:8080 , http://localhost:4200
 spring:
   profiles:
     active: dev #{PROFILE_ACTIVE}
