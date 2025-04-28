@@ -13,9 +13,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j(topic = "GLOBAL_EXCEPTION_HANDLER")
@@ -134,6 +136,31 @@ public class GlobalException {
         error.setTimestamp(Instant.now());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleFileNotFoundException(Exception ex, WebRequest request) {
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse();
+        exceptionResponse.setTimestamp(Instant.now());
+        exceptionResponse.setError("Falha ao tentar encontrar o arquivo requisitado");
+        exceptionResponse.setPath(request.getDescription(false));
+        exceptionResponse.setStatus(HttpStatus.NOT_FOUND.value());
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FileStorageException.class)
+    public final ResponseEntity<ExceptionResponse> handleFileStorageException(Exception ex, WebRequest request) {
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse();
+        exceptionResponse.setTimestamp(Instant.now());
+        exceptionResponse.setError("Falha ao tentar armazenar o arquivo requisitado");
+        exceptionResponse.setPath(request.getDescription(false));
+        exceptionResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

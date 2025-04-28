@@ -23,11 +23,11 @@ public interface FileControllerDocs {
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválido"),
             @ApiResponse(responseCode = "500", description = "Erro ao atualizar usuário!"),
     })
-    UploadFileResponseDTO uploadFile(MultipartFile file, Integer id) throws IOException;
+    UploadFileResponseDTO uploadFile(MultipartFile files, Integer id) throws IOException;
 
     @Operation(summary = "Metodo para baixar foto de usuário", method = "GET")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Download feito com sucesso!!"),
+            @ApiResponse(responseCode = "200", description = "Download feito com sucesso!!"),
             @ApiResponse(responseCode = "400", description = "Parametros inválidos!"),
             @ApiResponse(responseCode = "401", description = "Usuário não autenticado!"),
             @ApiResponse(responseCode = "403", description = "Não Autorizado!"),
