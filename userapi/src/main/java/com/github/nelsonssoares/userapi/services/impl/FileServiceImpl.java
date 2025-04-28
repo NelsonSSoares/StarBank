@@ -5,11 +5,12 @@ import com.github.nelsonssoares.userapi.commons.configs.filesTransfer.FileStorag
 import com.github.nelsonssoares.userapi.commons.constants.controllers.ControllersConstants;
 import com.github.nelsonssoares.userapi.domain.entities.User;
 import com.github.nelsonssoares.userapi.domain.repositories.UserRepository;
+import com.github.nelsonssoares.userapi.exceptions.FileNotFoundException;
 import com.github.nelsonssoares.userapi.exceptions.FileStorageException;
 import com.github.nelsonssoares.userapi.services.FileService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,12 +28,11 @@ public class FileServiceImpl implements FileService {
 
     private final Path fileStorageLocation;
     private final UserRepository repository;
-    private final ObjectMapper mapper;
 
     @Autowired
     public FileServiceImpl(FileStorageConfig fileStorageConfig, UserRepository repository, ObjectMapper mapper) {
         this.repository = repository;
-        this.mapper = mapper;
+
 
         Path path = Paths.get(fileStorageConfig.getUploadDir())
                 .toAbsolutePath().normalize();
@@ -77,7 +78,18 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Resource loadFileAsResource(String fileName, Integer id) {
-        return null;
+    public Resource loadFileAsResource(String fileName) {
+        try {
+            Path filePath = fileStorageLocation.resolve(fileName).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists()) {
+                return resource;
+            } else {
+                throw new FileNotFoundException("Arquivo não encontrado: " + fileName);
+            }
+        } catch (MalformedURLException ex) {
+            throw new FileNotFoundException("File not found "+ fileName ,ex);
+        }
     }
 }

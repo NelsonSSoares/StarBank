@@ -34,7 +34,7 @@ public interface FileControllerDocs {
             @ApiResponse(responseCode = "422", description = "Dados de requisição inválido"),
             @ApiResponse(responseCode = "500", description = "Erro ao atualizar usuário!"),
     })
-    ResponseEntity<Resource> downloadFile(String fileName, HttpServletRequest request);
+    ResponseEntity<Resource> downloadFile(String fileName, HttpServletRequest request) throws IOException;
 
     //    @Operation(summary = "Metodo para cadastrar novo usuário", method = "POST")
 //    @ApiResponses(value = {
