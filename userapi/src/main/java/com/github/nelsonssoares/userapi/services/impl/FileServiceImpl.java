@@ -62,11 +62,15 @@ public class FileServiceImpl implements FileService {
           Files.copy(file.getInputStream(), targetLocation);
 
           User user = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
           String photoUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
                   .path("/" + ControllersConstants.API_BASE_URL)
                   .path(ControllersConstants.FILES)
-                  .path(ControllersConstants.DOWNLOAD_FILE.replace("{fileName:.+}", user.getPhoto()))
+                  .path(ControllersConstants.DOWNLOAD)
+                  .path("/")
+                  .path(fileName)
                   .toUriString();
+
           user.setPhoto(photoUrl);
           repository.save(user);
           return fileName;
