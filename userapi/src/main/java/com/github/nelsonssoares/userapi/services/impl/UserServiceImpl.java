@@ -211,6 +211,7 @@ public class UserServiceImpl implements UserService {
         dto.add(linkTo(methodOn(UserController.class).findByName(dto.getName(), 0, 10, "asc")).withRel("findByName").withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).findByCPF(dto.getCpf())).withRel("findByCpf").withType("GET"));
         dto.add(linkTo(methodOn(UserController.class).findByEmail(dto.getEmail())).withRel("findByEmail").withType("GET"));
+        dto.add(linkTo(methodOn(UserController.class)).slash("massCreation").withRel("massCreation").withType("POST"));
 
     }
 }
