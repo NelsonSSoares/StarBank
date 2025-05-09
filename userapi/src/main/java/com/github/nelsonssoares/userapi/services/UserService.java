@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface UserService {
     ResponseEntity<User> reactiveUser(Integer id);
 
     ResponseEntity<UserDTO> findByEmail(String email);
+
+    List<UserDTO> importFile(MultipartFile file) throws Exception;
 }

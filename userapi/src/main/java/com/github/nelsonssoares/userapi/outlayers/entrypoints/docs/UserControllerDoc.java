@@ -3,6 +3,8 @@ package com.github.nelsonssoares.userapi.outlayers.entrypoints.docs;
 import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -11,6 +13,8 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface UserControllerDoc {
     @Operation(summary = "Metodo para cadastrar novo usuário", method = "POST")
@@ -107,5 +111,19 @@ public interface UserControllerDoc {
             @ApiResponse(responseCode = "500", description = "Erro ao buscar usuário!")
     })
     ResponseEntity<UserDTO> findByEmail(@PathVariable("email") String email);
+
+    @Operation(summary = "Massive users import",
+            description = "Massive users creation with upload of XLSX or CSV files",
+            tags = {"People"}, responses = {
+            @ApiResponse(description = "Success", responseCode = "200", content = {
+                    @Content(schema = @Schema(implementation = UserDTO.class))
+            }),
+            @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
+            @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
+            @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
+            @ApiResponse(description = "People not found", responseCode = "404", content = @Content),
+            @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
+    })
+    List<UserDTO> massCreation(MultipartFile file);
 
 }

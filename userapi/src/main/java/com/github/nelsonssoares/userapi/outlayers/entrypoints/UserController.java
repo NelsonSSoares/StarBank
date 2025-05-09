@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 import static com.github.nelsonssoares.userapi.commons.constants.controllers.ControllersConstants.*;
 import static org.springframework.http.MediaType.*;
 
@@ -113,6 +115,16 @@ public class UserController implements UserControllerDoc {
     @Override
     public ResponseEntity<UserDTO> findByEmail(@PathVariable("email") String email) {
         return userService.findByEmail(email);
+    }
+
+    @PostMapping(value = IMPORT_CSV_XLSX)
+    @Override
+    public List<UserDTO> massCreation(@RequestParam("file") MultipartFile file) {
+        try {
+            return userService.importFile(file);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

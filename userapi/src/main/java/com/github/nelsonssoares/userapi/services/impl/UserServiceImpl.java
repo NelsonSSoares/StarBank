@@ -5,10 +5,16 @@ import com.github.nelsonssoares.userapi.commons.constants.enums.UserActive;
 import com.github.nelsonssoares.userapi.commons.constraints.Constraints;
 import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
+import com.github.nelsonssoares.userapi.exceptions.FileStorageException;
+import com.github.nelsonssoares.userapi.file.importer.contract.FileImporter;
+import com.github.nelsonssoares.userapi.file.importer.factory.FileImporterFactory;
 import com.github.nelsonssoares.userapi.outlayers.entrypoints.UserController;
 import com.github.nelsonssoares.userapi.services.UserService;
 import com.github.nelsonssoares.userapi.usecases.user.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,9 +25,12 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -40,7 +49,10 @@ public class UserServiceImpl implements UserService {
     private final GetUserByEmail getUserByEmail;
     private final ActiveUser activeUser;
     private final ObjectMapper objectMapper;
+    private final FileImporterFactory importer;
     private final PagedResourcesAssembler assembler;
+
+    private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public ResponseEntity<UserDTO> save(UserDTO dto) {
@@ -156,6 +168,37 @@ public class UserServiceImpl implements UserService {
         addHateoasLinks(usuario);
 
         return usuario == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() : ResponseEntity.ok(usuario);
+    }
+
+    @Override
+    public List<UserDTO> importFile(MultipartFile file) throws Exception {
+
+        logger.info("Importing file: {}", file.getOriginalFilename());
+
+        if(file.isEmpty()) throw new BadRequestException("Ivalid file, please send a valid file");
+
+        try(InputStream inputStream = file.getInputStream()){
+            String fileName = Optional.ofNullable(file.getOriginalFilename())
+                    .orElseThrow(()-> new BadRequestException("File name is null"));
+
+            FileImporter importer = this.importer.getImporter(fileName);
+            List<User> users = importer.importFile(inputStream).stream()
+                    .map(userDTO -> objectMapper.convertValue(userDTO, User.class))
+                    .toList();
+
+            return users.stream().map(
+                    user ->{
+                        var dto = objectMapper.convertValue(user, UserDTO.class);
+                        addHateoasLinks(dto);
+                        return dto;
+                    }
+            ).toList();
+
+        } catch (Exception e) {
+            throw new FileStorageException("Error importing file", e);
+        }
+
+
     }
 
     private void addHateoasLinks(UserDTO dto) {
