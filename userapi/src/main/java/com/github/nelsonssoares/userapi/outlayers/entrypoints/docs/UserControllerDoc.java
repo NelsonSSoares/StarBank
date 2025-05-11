@@ -116,22 +116,22 @@ public interface UserControllerDoc {
     })
     ResponseEntity<UserDTO> findByEmail(@PathVariable("email") String email);
 
-    @Operation(summary = "Massive users import",
+    @Operation(summary = "Massive users import with CSV or XLSX file",
             description = "Massive users creation with upload of XLSX or CSV files",
-            tags = {"People"}, responses = {
+            responses = {
             @ApiResponse(description = "Success", responseCode = "200", content = {
                     @Content(schema = @Schema(implementation = UserDTO.class))
             }),
             @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
             @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
-            @ApiResponse(description = "People not found", responseCode = "404", content = @Content),
+            @ApiResponse(description = "User not found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
     })
     List<UserDTO> massCreation(MultipartFile file);
 
     @Operation(summary = "Export a page of people in XLSX or CSV format",
-            tags = {"People"}, responses = {
+            responses = {
             @ApiResponse(description = "Success", responseCode = "200", content = {
                     @Content(mediaType = MyMediaTypes.APPLICATION_XLSX),
                     @Content(mediaType = MyMediaTypes.APPLICATION_CSV),

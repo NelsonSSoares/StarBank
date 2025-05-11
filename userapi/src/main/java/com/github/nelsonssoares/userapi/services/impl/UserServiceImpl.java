@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
 
         logger.info("Importing file: {}", file.getOriginalFilename());
 
-        if(file.isEmpty()) throw new BadRequestException("Ivalid file, please send a valid file");
+        if(file.isEmpty()) throw new BadRequestException("Invalid file, please send a valid file");
 
         try(InputStream inputStream = file.getInputStream()){
             String fileName = Optional.ofNullable(file.getOriginalFilename())
