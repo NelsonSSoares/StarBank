@@ -6,6 +6,8 @@ import com.github.nelsonssoares.userapi.commons.constraints.Constraints;
 import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
 import com.github.nelsonssoares.userapi.exceptions.FileStorageException;
+import com.github.nelsonssoares.userapi.file.exporter.contract.FileExporter;
+import com.github.nelsonssoares.userapi.file.exporter.factory.FileExporterFactory;
 import com.github.nelsonssoares.userapi.file.importer.contract.FileImporter;
 import com.github.nelsonssoares.userapi.file.importer.factory.FileImporterFactory;
 import com.github.nelsonssoares.userapi.outlayers.entrypoints.UserController;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +53,7 @@ public class UserServiceImpl implements UserService {
     private final ActiveUser activeUser;
     private final ObjectMapper objectMapper;
     private final FileImporterFactory importer;
+    private final FileExporterFactory exporter;
     private final PagedResourcesAssembler assembler;
 
     private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -197,9 +201,24 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw new FileStorageException("Error importing file", e);
         }
-
-
     }
+
+    @Override
+    public Resource exportFile(Pageable pageable, String acceptHeader) {
+        logger.info("Exporting file with accept header: {}", acceptHeader);
+
+        var users = getAllUsers.executeAllUsers(pageable)
+                .map( user -> objectMapper.convertValue(user, UserDTO.class))
+                .getContent();
+
+        try{
+            FileExporter exporter = this.exporter.getExporter(acceptHeader);
+            return exporter.exportFile(users);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     private void addHateoasLinks(UserDTO dto) {
         dto.add(linkTo(methodOn(UserController.class).findById(dto.getId())).withSelfRel().withType("GET"));

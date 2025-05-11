@@ -4,16 +4,22 @@ package com.github.nelsonssoares.userapi.outlayers.entrypoints;
 
 import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
+import com.github.nelsonssoares.userapi.file.exporter.MyMediaTypes;
 import com.github.nelsonssoares.userapi.outlayers.entrypoints.docs.UserControllerDoc;
 import com.github.nelsonssoares.userapi.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -125,6 +131,31 @@ public class UserController implements UserControllerDoc {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @GetMapping(value = EXPORT_CSV_XLSX, produces = {MyMediaTypes.APPLICATION_CSV, MyMediaTypes.APPLICATION_XLSX})
+    @Override
+    public ResponseEntity<Resource> exportFile(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "12") Integer size,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction,
+            HttpServletRequest request) throws BadRequestException {
+
+        var sortDirection = direction.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        var pageable = PageRequest.of(page, size, Sort.by(sortDirection, "name"));
+
+        String acceptHeader = request.getHeader(HttpHeaders.ACCEPT);
+
+        Resource file = userService.exportFile(pageable, acceptHeader);
+
+        String contentType = acceptHeader != null ? acceptHeader : "application/octet-stream";
+        String fileExtension = MyMediaTypes.APPLICATION_XLSX.equalsIgnoreCase(acceptHeader) ? ".xlsx" : ".csv";
+        String fileName = "users_exported" + fileExtension;
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                .body(file);
     }
 
 

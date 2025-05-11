@@ -19,6 +19,7 @@ public class ControllersConstants {
     public static final String ACTIVE = "/active/{id}";
     public static final String FILES = "/files";
     public static final String IMPORT_CSV_XLSX = "/importUsers";
+    public static final String EXPORT_CSV_XLSX = "/exportUsers";
 
     // ADDRESS ENDPOINTS
 

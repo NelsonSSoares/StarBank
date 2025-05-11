@@ -2,6 +2,7 @@ package com.github.nelsonssoares.userapi.services;
 
 import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
@@ -30,4 +31,6 @@ public interface UserService {
     ResponseEntity<UserDTO> findByEmail(String email);
 
     List<UserDTO> importFile(MultipartFile file) throws Exception;
+
+    Resource exportFile(Pageable pageable, String acceptHeader);
 }
