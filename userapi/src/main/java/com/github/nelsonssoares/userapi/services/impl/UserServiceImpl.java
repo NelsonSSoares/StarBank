@@ -215,7 +215,8 @@ public class UserServiceImpl implements UserService {
             FileExporter exporter = this.exporter.getExporter(acceptHeader);
             return exporter.exportFile(users);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            logger.error(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 

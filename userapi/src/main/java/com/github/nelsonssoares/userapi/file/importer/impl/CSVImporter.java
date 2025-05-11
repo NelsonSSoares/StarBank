@@ -36,7 +36,6 @@ public class CSVImporter implements FileImporter {
 
         for (CSVRecord record : records) {
             UserDTO user = new UserDTO();
-            user.setId(Integer.valueOf(record.get("id")));
             user.setName(record.get("name"));
             user.setLastName(record.get("last_name"));
             user.setCpf(record.get("cpf"));
@@ -45,6 +44,7 @@ public class CSVImporter implements FileImporter {
             user.setAccount(record.get("account"));
             user.setAgency(record.get("agency"));
             user.setPhoto(record.get("photo"));
+            usersDto.add(user);
         }
         return usersDto;
     }
