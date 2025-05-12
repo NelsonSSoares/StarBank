@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 public class CSVImporter implements FileImporter {
 
-    // TROCAR PARA DOOZER MAPPER, DANDO ERROR COM OBJECT MAPPER
+    // Dando erro nesta classe. testei outro mapper mas error persiste.
 
     @Override
     public List<UserDTO> importFile(InputStream inputStream) throws Exception {
