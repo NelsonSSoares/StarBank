@@ -7,4 +7,4 @@ Mas aprensenta erros apos instanciar os importers na factory.
 
 ### 2. Refatorar DTO de Usuario
 O DTO de usuario recebe agencia e conta que ainda não existem na criação do usuario.
-- [ ] Criar DTO para criar usuario e outro para resposta com as infos corretas.
+- [ ] Refatorar DTO para criar usuario e outro para resposta com as infos corretas.
