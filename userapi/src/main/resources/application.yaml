@@ -13,9 +13,11 @@ file:
   download-dir: C:\Users\Nelson\Downloads
   max-file-size: 200MB
   max-request-size: 215MB
+
   #Configuração de CORS
 #cors:
 #  originsPatterns: http://localhost:8080 , http://localhost:4200
+
 spring:
   profiles:
     active: dev #{PROFILE_ACTIVE}

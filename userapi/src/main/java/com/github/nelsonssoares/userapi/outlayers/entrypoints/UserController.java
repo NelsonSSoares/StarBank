@@ -123,7 +123,7 @@ public class UserController implements UserControllerDoc {
         return userService.findByEmail(email);
     }
 
-    @PostMapping(value = IMPORT_CSV_XLSX)
+    @PostMapping(value = IMPORT_CSV_XLSX, consumes = {MULTIPART_FORM_DATA_VALUE})
     @Override
     public List<UserDTO> massCreation(@RequestParam("file") MultipartFile file) {
         try {

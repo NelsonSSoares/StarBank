@@ -1,4 +1,26 @@
+
 spring:
+  # Configuração Spring Mail
+  mail:
+    subject: "Default Subject"
+    message: "Default Message"
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    from: ${EMAIL_FROM}
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+    # Configuração para download e upload do arquivo
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 200MB
+      max-request-size: 215MB
+
   jpa:
     properties:
       hibernate:
