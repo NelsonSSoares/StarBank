@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nelsonssoares.userapi.commons.constants.enums.UserActive;
 import com.github.nelsonssoares.userapi.commons.constraints.Constraints;
 import com.github.nelsonssoares.userapi.domain.dtos.UserDTO;
+import com.github.nelsonssoares.userapi.domain.dtos.request.EmailRequestDTO;
 import com.github.nelsonssoares.userapi.domain.entities.User;
 import com.github.nelsonssoares.userapi.exceptions.FileStorageException;
 import com.github.nelsonssoares.userapi.file.exporter.contract.FileExporter;
@@ -12,6 +13,7 @@ import com.github.nelsonssoares.userapi.file.importer.contract.FileImporter;
 import com.github.nelsonssoares.userapi.file.importer.factory.FileImporterFactory;
 import com.github.nelsonssoares.userapi.outlayers.entrypoints.UserController;
 import com.github.nelsonssoares.userapi.services.UserService;
+import com.github.nelsonssoares.userapi.usecases.mail.EmailService;
 import com.github.nelsonssoares.userapi.usecases.user.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
@@ -55,6 +57,7 @@ public class UserServiceImpl implements UserService {
     private final FileImporterFactory importer;
     private final FileExporterFactory exporter;
     private final PagedResourcesAssembler assembler;
+    private final EmailService emailService;
 
     private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -63,6 +66,11 @@ public class UserServiceImpl implements UserService {
 
         UserDTO usuario = saveUser.executeSaveUser(dto);
 
+        EmailRequestDTO email = new EmailRequestDTO();
+        email.setTo(usuario.getEmail());
+        email.setSubject("Cadastro realizado com sucesso");
+        email.setBody("Olá " + usuario.getName() + ", seu cadastro foi realizado com sucesso!");
+        emailService.sendSimpleEmail(email);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
@@ -111,6 +119,12 @@ public class UserServiceImpl implements UserService {
         UserDTO dto = objectMapper.convertValue(usuario, UserDTO.class);
         addHateoasLinks(dto);
 
+        EmailRequestDTO email = new EmailRequestDTO();
+        email.setTo(usuario.getEmail());
+        email.setSubject("Atualização de cadastro");
+        email.setBody("Olá " + usuario.getName() + ", seu cadastro foi atualizado com sucesso!");
+        emailService.sendSimpleEmail(email);
+
         return ResponseEntity.status(HttpStatus.OK).body(usuario);
     }
 
@@ -125,6 +139,12 @@ public class UserServiceImpl implements UserService {
         }
         UserDTO dto = objectMapper.convertValue(usuario, UserDTO.class);
         addHateoasLinks(dto);
+
+        EmailRequestDTO email = new EmailRequestDTO();
+        email.setTo(usuario.getEmail());
+        email.setSubject("Cadastro excluído");
+        email.setBody("Olá " + usuario.getName() + ", seu cadastro foi excluído com sucesso!");
+        emailService.sendSimpleEmail(email);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -160,6 +180,12 @@ public class UserServiceImpl implements UserService {
 
         UserDTO dto = objectMapper.convertValue(usuario, UserDTO.class);
         addHateoasLinks(dto);
+
+        EmailRequestDTO email = new EmailRequestDTO();
+        email.setTo(usuario.getEmail());
+        email.setSubject("Reativação de cadastro");
+        email.setBody("Olá " + usuario.getName() + ", seu cadastro foi reativado com sucesso!");
+        emailService.sendSimpleEmail(email);
 
         return usuario == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() : ResponseEntity.ok(usuario);
     }
