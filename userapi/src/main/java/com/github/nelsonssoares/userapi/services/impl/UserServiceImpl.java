@@ -211,6 +211,7 @@ public class UserServiceImpl implements UserService {
             String fileName = Optional.ofNullable(file.getOriginalFilename())
                     .orElseThrow(()-> new BadRequestException("File name is null"));
 
+            // o erro esta neste trecho de codigo
             FileImporter importer = this.importer.getImporter(fileName);
             List<User> users = importer.importFile(inputStream).stream()
                     .map(userDTO -> objectMapper.convertValue(userDTO, User.class))
