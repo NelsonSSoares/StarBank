@@ -1,11 +1,15 @@
+## Configuração do Eureka Client
 #eureka:
 #  instance:
 #    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 #  client:
+#    fetch-registry: true
+#    lease-renewal-interval-in-seconds: 30
+#    lease-expiration-duration-in-seconds: 90
 #    register-with-eureka: 'true'
 #    service-url:
 #      defaultZone: http://localhost:8761/eureka
-#    fetch-registry: 'true'
+
 
 # Configuração para upload e download de arquivos
 file:
@@ -19,6 +23,8 @@ file:
 #  originsPatterns: http://localhost:8080 , http://localhost:4200
 
 spring:
+  application:
+    name: user-api
   profiles:
     active: dev #{PROFILE_ACTIVE}
   jpa:
@@ -26,9 +32,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: update
-  application:
-    name: product-api
+          ddl-auto: update
   datasource:
     password: '12345'
     username: root
