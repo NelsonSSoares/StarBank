@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
-import { last } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -13,11 +12,13 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [
     CommonModule,
+    // Importing PrimeNG modules
     CardModule,
     ButtonModule,
     ReactiveFormsModule,
     InputTextModule,
-    ToastModule
+    ToastModule,
+
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
