@@ -19,8 +19,8 @@ file:
   max-request-size: 215MB
 
   #Configuração de CORS
-#cors:
-#  originsPatterns: http://localhost:8080 , http://localhost:4200
+cors:
+  originsPatterns: http://localhost:8080 , http://localhost:4200
 
 spring:
   application:

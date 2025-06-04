@@ -34,6 +34,7 @@ import static org.springframework.http.MediaType.*;
 @RestController
 @RequestMapping(value = API_BASE_URL, produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE, APPLICATION_YAML_VALUE})
 //@SecurityRequirement(name = API_SECURITY_REQUIREMENT)
+@CrossOrigin
 public class UserController implements UserControllerDoc {
 
     private final UserService userService;
