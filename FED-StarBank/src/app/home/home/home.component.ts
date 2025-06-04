@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [
     CommonModule,
+
     // Importing PrimeNG modules
     CardModule,
     ButtonModule,
@@ -21,19 +22,23 @@ import { CommonModule } from '@angular/common';
 
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
+
 })
 export class HomeComponent {
 
   loginCard = true;
 
+  constructor(
+    private formBuilder: FormBuilder
+  ) {}
 
 
   signupForm = this.formBuilder.group({
-    name: ['', Validators.required],
-    lastName: ['', Validators.required],
-    cpf: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
-    phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(11)]],
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    lastName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    cpf: ['', [Validators.required, Validators.minLength(11) , Validators.maxLength(11)]],
+    phone: ['', [Validators.required,Validators.minLength(8),  Validators.maxLength(11)]],
     email: ['', [Validators.required, Validators.email]],
     photo: [''],
     password: ['', [Validators.required, Validators.minLength(6)]],
@@ -41,15 +46,11 @@ export class HomeComponent {
   });
 
   loginForm = this.formBuilder.group({
-    email: ['', Validators.required, Validators.email],
-    password: ['' , Validators.required]
+    email: ['', [Validators.required, Validators.email]],
+    password: ['' , [Validators.required]]
   });
 
-  constructor(
-    private formBuilder: FormBuilder
-  ) {
 
-  }
 
   ngOnInit() {
 
