@@ -1,11 +1,7 @@
-<p-toast
-  position="top-right"
-  [showTransformOptions]="'translateY(100%)'"
-  [showTransitionOptions]="'1000ms'"
-  [hideTransitionOptions]="'1000ms'"
-  [showTransformOptions]="'translateX(100%)'"
-  [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"
-></p-toast>
+
+<p-toast position="top-right" [showTransformOptions]="'translateY(100%)'" [showTransitionOptions]="'1000ms'"
+  [hideTransitionOptions]="'1000ms'" [showTransformOptions]="'translateX(100%)'"
+  [breakpoints]="{'920px': {width: '100%', right: '0', left: '0'}}"></p-toast>
 <div class="grid">
   <div class="col-12">
     <div class="flex justify-content-center align-content-center text-align-center">
@@ -23,11 +19,13 @@
             </div>
 
             <div class="card flex justify-content-center mt-3 mb-3">
-              <button type="submit" pButton pRipple label="Login" [disabled]="!this.loginForm.valid"></button>
+              <p-button [outlined]="isHovering" severity="warning" type="submit" label="Login"
+                [disabled]="!this.loginForm.valid" (mouseenter)="isHovering = false"
+                (mouseleave)="isHovering = true"></p-button>
             </div>
 
             <span
-              class="flex justify-content-center pb-3 text-red align-content-center text-align-center mt-3 text-red-600 font-semibold"
+              class="flex justify-content-center pb-3 text-red align-content-center text-align-center mt-3 font-semibold neon-text-button"
               (click)="loginCard = false" style="cursor: pointer;"> Criar Conta</span>
           </p-card>
         </form>
@@ -70,12 +68,14 @@
               <input type="password" pInputText placeholder="Confirme sua senha" formControlName="confirmPassword">
             </div>
 
-            <div class="card flex justify-content-center mt-3">
-              <button type="submit" pButton pRipple label="Criar conta" [disabled]="!this.signupForm.valid"></button>
+            <div class="card flex justify-content-center mt-3 mb-3">
+              <p-button [outlined]="isHovering" severity="warning" type="submit" label="Criar conta"
+                [disabled]="!this.loginForm.valid" (mouseenter)="isHovering = false"
+                (mouseleave)="isHovering = true"></p-button>
             </div>
 
             <span
-              class="flex justify-content-center align-content-center text-align-center mt-3 pb-3 text-red font-semibold"
+              class="flex justify-content-center align-content-center text-align-center mt-3 pb-3 neon-text-button font-semibold "
               (click)="loginCard = true" style="cursor: pointer;"> Fazer Login</span>
           </p-card>
         </form>
@@ -83,3 +83,4 @@
     </div>
   </div>
 </div>
+

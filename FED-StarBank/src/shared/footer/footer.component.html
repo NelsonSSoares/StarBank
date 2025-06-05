@@ -1,0 +1,27 @@
+<p-toolbar styleClass="bg-gray-900 shadow-2 p-3"
+  [style]=" { 'background-image': 'linear-gradient(to right, var(--black-500), var(--black-800))' }">
+  <ng-template pTemplate="start">
+
+    <button
+      class="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
+      <i class="pi pi-github text-2xl"></i>
+    </button>
+    <button
+      class="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
+      <i class="pi pi-linkedin text-2xl"></i>
+    </button>
+    <button
+      class="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
+      <i class="pi pi-whatsapp text-2xl"></i>
+    </button>
+  </ng-template>
+  <ng-template pTemplate="center">
+    <div class="flex flex-wrap align-items-center gap-3">
+      <span style="color: white;"> Developed by: Nelson de Sousa</span>
+
+    </div>
+  </ng-template>
+  <ng-template pTemplate="end">
+    <i class="pi pi-star-fill " style="font-size: 2.5rem; color: white; cursor: pointer;" routerLink="/">StarBank</i>
+  </ng-template>
+</p-toolbar>

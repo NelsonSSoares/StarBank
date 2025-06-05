@@ -26,4 +26,8 @@ export class UserService {
     return this.http.post<AuthResponse>(url, requestDatas);
 
   }
+  getUserByEmail(email: string): Observable<SignupUserResponse> {
+    const url = `${this.API_URL}/starbank/users/email/${email}`;
+    return this.http.get<SignupUserResponse>(url);
+  }
 }
