@@ -9,6 +9,9 @@ import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
 import { SignupUserRequest } from '../../../models/interfaces/user/SignupUserRequest';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthRequest } from '../../../models/interfaces/auth/AuthRequest';
+import { CookieService } from 'ngx-cookie-service';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -23,7 +26,10 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     InputTextModule,
     ToastModule,
+    //NGX Cookie Service
+
   ],
+  providers: [MessageService],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 
@@ -35,6 +41,8 @@ export class HomeComponent {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private cookieService: CookieService,
+    private messageService: MessageService
   ) {}
 
 
@@ -63,6 +71,24 @@ export class HomeComponent {
   onSubmitLoginForm(): void{
     console.log('Login Form Submitted', this.loginForm.value);
 
+    if(this.loginForm.valid && this.loginForm.value ){
+        this.userService.authUser(this.loginForm.value as AuthRequest)
+        .subscribe({
+          next: (response) =>{
+            if(response){
+              this.cookieService.set('USER_TOKEN', response?.token);
+              this.loginForm.reset();
+            }
+            this.messageService.add({severity: 'success', summary: 'Success', detail: `Bem vindo ${response?.name}!`, life: 3000});
+          },
+          error: (error) => {
+            this.messageService.add({severity: 'error', summary: 'Error', detail: `Erro ao autenticar usuario: ${error.error.message}`, life: 3000});
+
+          }
+        })
+
+    }
+
   }
 
   onSubmitSignupForm(): void{
@@ -72,20 +98,13 @@ export class HomeComponent {
         .subscribe({
           next: (response) =>{
             if(response){
-              alert('User registered successfully!'
-                + '\nName: ' + response.name
-                + '\nLast Name: ' + response.lastName
-                + '\nEmail: ' + response.email
-                + '\nCPF: ' + response.cpf
-                + '\nPhone: ' + response.phone
-              );
-              //this.toastService.add({severity: 'success', summary: 'Success', detail: 'User registered successfully!'});
+              this.signupForm.reset(); // Reset the form after successful signup
               this.loginCard = true; // Switch to login card after successful signup
             }
+             this.messageService.add({severity: 'success', summary: 'Success', detail: `Usuario ${response.name} cadastrado com sucesso!`, life: 3000});
           },
           error: (error) => {
-            console.error('Error during signup:', error);
-            //this.toastService.add({severity: 'error', summary: 'Error', detail: 'Failed to register user.'});
+            this.messageService.add({severity: 'error', summary: 'Error', detail: `Erro ao cadastrar usuario: ${error.error.message}`, life: 3000});
           }
         })
 
