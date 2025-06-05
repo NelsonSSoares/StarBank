@@ -33,6 +33,18 @@ public class Constraints {
         return false;
     }
 
+    public static boolean ExistentEmail(List<User> usuarios, UserDTO usuario){
+
+        Iterator<User> iterator = usuarios.iterator();
+        while(iterator.hasNext()) {
+            User user = iterator.next();
+            if(user.getEmail().equals(usuario.getEmail())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static List<User> usuariosAtivosList(List<User> usuarios) {
         Iterator<User> iterator = usuarios.iterator();
         while (iterator.hasNext()) {

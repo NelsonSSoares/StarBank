@@ -28,12 +28,14 @@ public class SaveUser {
 
         List<User> usuarios = userRepository.findAll();
 
-        boolean result = Constraints.ExistentCPF(usuarios, user);
-        System.out.println(result);
 
-        if(result == true) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT , "CPF já cadastrado");
+        if(Constraints.ExistentCPF(usuarios, user)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "CPF já cadastrado");
         }
+        if(Constraints.ExistentEmail(usuarios, user)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "E-mail já cadastrado");
+        }
+
 
         User usuario = objectMapper.convertValue(user, User.class);
 
