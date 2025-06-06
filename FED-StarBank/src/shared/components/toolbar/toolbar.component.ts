@@ -25,9 +25,6 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
   styleUrl: './toolbar.component.scss'
 })
 export class ToolbarComponent {
-  isHovering: boolean = false;
-  // No seu componente .ts
-showMobileMenu = false;
 
   constructor() { }
 

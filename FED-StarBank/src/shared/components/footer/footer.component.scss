@@ -2,3 +2,20 @@ a.clean-link {
   text-decoration: none;
   color: inherit;
 }
+.footer {
+  background-color: #0b1c2c;
+  color: #D4AF37;
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  border-top: 1px solid #D4AF37;
+
+  a {
+    color: #D4AF37;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

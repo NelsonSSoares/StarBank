@@ -1,4 +1,5 @@
-.grid {
+
+.background {
   background-image: url("../../../assets/starbank.jpeg") !important;
   background-size: cover;
   background-position: center;
@@ -16,4 +17,7 @@ div{
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border: 1px solid #D4AF37;
+}
+html,body,div{
+   font-family: 'Playfair Display', serif;
 }

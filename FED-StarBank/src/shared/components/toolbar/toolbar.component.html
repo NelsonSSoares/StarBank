@@ -1,31 +1,36 @@
-<p-toolbar
-    styleClass="bg-gray-900 shadow-2 p-3"
-    [style]="{ 'background-image': 'linear-gradient(to right, #D4AF37, #0B1C2C)' }">
-        <ng-template pTemplate="start">
-            <i class="pi pi-star-fill " style="font-size: 2.5rem; color: white; cursor: pointer;" routerLink="/">StarBank</i>
-        </ng-template>
-        <ng-template pTemplate="center">
-            <div class="flex flex-wrap align-items-center gap-3">
-                <button class="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
-                    <a class="clean-link" routerLink=""><i class="pi pi-home text-2xl"></i></a>
-                </button>
-                <button class="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
-                    <a class="clean-link" routerLink="login"><i class="pi pi-user-plus text-2xl"></i></a>
-                </button>
-                <button class="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
-                    <a class="clean-link" routerLink="documentation"><i class="pi pi-book text-2xl"></i></a>
-                </button>
-            </div>
-        </ng-template>
-        <ng-template pTemplate="end">
-            <div class="flex align-items-center gap-2">
-                <p-avatar
-                    image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-                    shape="circle" />
-                <span class="font-bold text-bluegray-50">
-                    Amy Elsner
-                </span>
-            </div>
-        </ng-template>
+<p-toolbar styleClass="bg-gray-900 shadow-2 p-3"
+  [style]="{ 'background-image': 'linear-gradient(to right, #D4AF37, #0B1C2C)' }">
+  <ng-template pTemplate="start">
+    <i class="pi pi-star-fill " style="font-size: 2.5rem; color: white; cursor: pointer;" routerLink="/">StarBank</i>
+  </ng-template>
+  <ng-template pTemplate="center">
+    <div class="flex flex-wrap align-items-center gap-3">
+      <a class="clean-link" routerLink="">
+        <button
+          class="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
+          <i class="pi pi-home text-2xl"></i>
+        </button>
+      </a>
+      <a class="clean-link" routerLink="login">
+        <button
+          class="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
+          <i class="pi pi-user-plus text-2xl"></i>
+        </button>
+      </a>
+      <a class="clean-link" routerLink="documentation">
+        <button
+          class="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
+          <i class="pi pi-book text-2xl"></i>
+        </button>
+      </a>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="end">
+    <div class="flex align-items-center gap-2">
+      <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+      <span class="font-bold text-bluegray-50">
+        Amy Elsner
+      </span>
+    </div>
+  </ng-template>
 </p-toolbar>
-

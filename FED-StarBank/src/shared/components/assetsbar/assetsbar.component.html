@@ -1,9 +1,8 @@
 <div class="card flex justify-content-between align-items-center mb-4 px-4 py-2 border-round">
-
   <!-- Bitcoin -->
   <div class="flex align-items-center gap-2">
     <i class="pi pi-bitcoin text-2xl text-yellow-500"></i>
-    <span>BTC: {{ prices().BTC | number: '1.2-2' }} USD</span>
+    <span>BTC: {{ prices()['BTC'] | number: '1.2-2' }} USD</span>
     <i *ngIf="directions()['BTC'] === 'up'" class="pi pi-arrow-up text-green-500"></i>
     <i *ngIf="directions()['BTC'] === 'down'" class="pi pi-arrow-down text-red-500"></i>
   </div>
@@ -11,7 +10,7 @@
   <!-- Ethereum -->
   <div class="flex align-items-center gap-2">
     <i class="pi pi-ethereum text-2xl text-indigo-500"></i>
-    <span>ETH: {{ prices().ETH | number: '1.2-2' }} USD</span>
+    <span>ETH: {{ prices()['ETH'] | number: '1.2-2' }} USD</span>
     <i *ngIf="directions()['ETH'] === 'up'" class="pi pi-arrow-up text-green-500"></i>
     <i *ngIf="directions()['ETH'] === 'down'" class="pi pi-arrow-down text-red-500"></i>
   </div>
@@ -19,7 +18,7 @@
   <!-- Dólar -->
   <div class="flex align-items-center gap-2">
     <i class="pi pi-dollar text-2xl text-green-500"></i>
-    <span>USD: {{ prices().USD | number: '1.2-2' }} BRL</span>
+    <span>USD: {{ prices()['USD'] | number: '1.2-2' }} BRL</span>
     <i *ngIf="directions()['USD'] === 'up'" class="pi pi-arrow-up text-green-500"></i>
     <i *ngIf="directions()['USD'] === 'down'" class="pi pi-arrow-down text-red-500"></i>
   </div>
@@ -27,9 +26,8 @@
   <!-- Euro -->
   <div class="flex align-items-center gap-2">
     <i class="pi pi-euro text-2xl text-blue-500"></i>
-    <span>EUR: {{ prices().EUR | number: '1.2-2' }} USD</span>
+    <span>EUR: {{ prices()['EUR'] | number: '1.2-2' }} USD</span>
     <i *ngIf="directions()['EUR'] === 'up'" class="pi pi-arrow-up text-green-500"></i>
     <i *ngIf="directions()['EUR'] === 'down'" class="pi pi-arrow-down text-red-500"></i>
   </div>
-
 </div>

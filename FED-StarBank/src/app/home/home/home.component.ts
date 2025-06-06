@@ -12,7 +12,6 @@ import { AssetsbarComponent } from "../../../shared/components/assetsbar/assetsb
   selector: 'app-home',
   standalone: true,
   imports: [
-    // Importing Angular modules
     CommonModule,
     // Importing PrimeNG modules
     CardModule,
