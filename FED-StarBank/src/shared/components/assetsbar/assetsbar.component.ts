@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, signal } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
@@ -18,17 +18,19 @@ export class AssetsbarComponent implements AfterViewInit {
     EUR: 0
   });
 
+  directions = signal<{ [key: string]: 'up' | 'down' | 'none' }>({
+    BTC: 'none',
+    ETH: 'none',
+    USD: 'none',
+    EUR: 'none'
+  });
+
   constructor(private http: HttpClient) {}
+
   ngAfterViewInit(): void {
     this.fetchPrices();
-    setInterval(() => this.fetchPrices(), 5000); // Atualiza a cada 5 segundos
+    setInterval(() => this.fetchPrices(), 5000);
   }
-
-/*   ngOnInit(): void {
-    this.fetchPrices();
-    setInterval(() => this.fetchPrices(), 5000); // atualiza a cada 5s
-  } */
-
 
   fetchPrices(): void {
     const symbols = ['BTCUSDT', 'ETHUSDT', 'EURUSDT', 'USDTBRL'];
@@ -37,19 +39,25 @@ export class AssetsbarComponent implements AfterViewInit {
       this.http.get<any>(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`)
         .subscribe({
           next: (response) => {
-            const price = parseFloat(response.price);
+            const newPrice = parseFloat(response.price);
+            const prev = this.prices();
+
             switch (symbol) {
               case 'BTCUSDT':
-                this.prices.update(p => ({ ...p, BTC: price }));
+                this.directions.update(d => ({ ...d, BTC: this.getDirection(prev.BTC, newPrice) }));
+                this.prices.update(p => ({ ...p, BTC: newPrice }));
                 break;
               case 'ETHUSDT':
-                this.prices.update(p => ({ ...p, ETH: price }));
+                this.directions.update(d => ({ ...d, ETH: this.getDirection(prev.ETH, newPrice) }));
+                this.prices.update(p => ({ ...p, ETH: newPrice }));
                 break;
               case 'EURUSDT':
-                this.prices.update(p => ({ ...p, EUR: price }));
+                this.directions.update(d => ({ ...d, EUR: this.getDirection(prev.EUR, newPrice) }));
+                this.prices.update(p => ({ ...p, EUR: newPrice }));
                 break;
               case 'USDTBRL':
-                this.prices.update(p => ({ ...p, USD: price }));
+                this.directions.update(d => ({ ...d, USD: this.getDirection(prev.USD, newPrice) }));
+                this.prices.update(p => ({ ...p, USD: newPrice }));
                 break;
             }
           },
@@ -58,5 +66,10 @@ export class AssetsbarComponent implements AfterViewInit {
           }
         });
     });
+  }
+
+  private getDirection(oldPrice: number, newPrice: number): 'up' | 'down' | 'none' {
+    if (oldPrice === 0) return 'none';
+    return newPrice > oldPrice ? 'up' : newPrice < oldPrice ? 'down' : 'none';
   }
 }
