@@ -50,9 +50,9 @@
 /* Efeito neon oco ao passar o mouse */
 .neon-text-button:hover {
   color: transparent; /* deixa o interior da letra "vazio" */
-  -webkit-text-stroke: 1px orangered; /* contorno da letra */
+  -webkit-text-stroke: 1px #0B1C2C; /* contorno da letra */
   text-shadow:
-    0 0 4px orangered,
-    0 0 8px orangered,
-    0 0 12px orangered;
+    0 0 4px #0B1C2C,
+    0 0 8px #0B1C2C,
+    0 0 12px #0B1C2C;
 }

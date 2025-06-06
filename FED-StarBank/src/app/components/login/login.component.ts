@@ -155,8 +155,8 @@ export class LoginComponent {
               localStorage.setItem('USER_EMAIL', response.email);
               localStorage.setItem('USER_PASSWORD', this.signupForm.value.password as string);
 
-              this.signupForm.reset(); // Reset the form after successful signup
-              this.loginCard = true; // Switch to login card after successful signup
+              this.signupForm.reset();
+              this.loginCard = true;
             }
 
             this.messageService.add({ severity: 'success', summary: 'Success', detail: `Usuario ${response.name} cadastrado com sucesso!`, life: 3000 });

@@ -10,7 +10,7 @@ import { ToolbarModule } from 'primeng/toolbar';
       ButtonModule,
   ],
   templateUrl: './footer.component.html',
-  styleUrl: './footer.component.css'
+  styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
 

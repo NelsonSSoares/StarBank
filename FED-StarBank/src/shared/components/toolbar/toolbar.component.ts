@@ -22,10 +22,12 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
     AvatarGroupModule
   ],
   templateUrl: './toolbar.component.html',
-  styleUrl: './toolbar.component.css'
+  styleUrl: './toolbar.component.scss'
 })
 export class ToolbarComponent {
   isHovering: boolean = false;
+  // No seu componente .ts
+showMobileMenu = false;
 
   constructor() { }
 
