@@ -1,14 +1,14 @@
 ## Configuração do Eureka Client
-#eureka:
-#  instance:
-#    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-#  client:
-#    fetch-registry: true
-#    lease-renewal-interval-in-seconds: 30
-#    lease-expiration-duration-in-seconds: 90
-#    register-with-eureka: 'true'
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    fetch-registry: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 
 
 # Configuração para upload e download de arquivos
@@ -27,6 +27,8 @@ spring:
     name: user-api
   profiles:
     active: dev #{PROFILE_ACTIVE}
+  cloud:
+    discovery:
   jpa:
     properties:
       hibernate:
@@ -41,4 +43,4 @@ server:
   error:
     include-stacktrace: never
     include-exception: 'false'
-#  port: ${PORT:0}
+  port: ${PORT:0}

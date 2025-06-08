@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: Eureka-server
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    registry-fetch-interval-seconds: 5
+    instance-info-replication-interval-seconds: 5
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka
+server:
+  port: 8761
+  error:
+    include-stacktrace: never
+
+
