@@ -1,3 +1,9 @@
+feign:
+  user-api:
+    name: user-api
+    url: http://localhost:8765/starbank/users
+cors:
+  originsPatterns: http://localhost:8080 , http://localhost:4200
 server:
   port: 8765
 eureka:
