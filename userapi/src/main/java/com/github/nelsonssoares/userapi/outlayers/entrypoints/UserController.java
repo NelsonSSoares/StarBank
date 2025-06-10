@@ -9,6 +9,7 @@ import com.github.nelsonssoares.userapi.outlayers.entrypoints.docs.UserControlle
 import com.github.nelsonssoares.userapi.services.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
@@ -40,6 +41,7 @@ public class UserController implements UserControllerDoc {
     private final UserService userService;
 
 
+    @Transactional
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Override
@@ -49,6 +51,7 @@ public class UserController implements UserControllerDoc {
     }
 
 
+    @Transactional
     @PutMapping(value = ID)
     @ResponseStatus(HttpStatus.OK)
     @Override
@@ -64,7 +67,7 @@ public class UserController implements UserControllerDoc {
     }
 
 
-
+    @Transactional
     @DeleteMapping(value = ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Override
