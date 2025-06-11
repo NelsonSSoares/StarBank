@@ -26,7 +26,7 @@ public class RegistrationController implements RegistrationControllerDoc {
     @ResponseStatus(HttpStatus.CREATED)
     @Override
     public ResponseEntity<UserRequest> createUser(UserRequest dto) throws Exception {
-        UserRequest user = service.registerUser(dto);
+        UserRequest user = service.registerUser(dto).getBody();
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(user);
     }
