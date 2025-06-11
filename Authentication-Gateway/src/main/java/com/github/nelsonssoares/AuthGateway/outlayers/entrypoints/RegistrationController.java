@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.github.nelsonssoares.AuthGateway.commons.ControllerConstants.*;
+import static com.github.nelsonssoares.AuthGateway.commons.constants.ControllerConstants.*;
 import static org.springframework.http.MediaType.*;
 
 

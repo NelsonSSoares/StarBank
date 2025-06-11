@@ -1,4 +1,4 @@
-package com.github.nelsonssoares.AuthGateway.commons;
+package com.github.nelsonssoares.AuthGateway.commons.constants;
 
 public class ControllerConstants {
 
