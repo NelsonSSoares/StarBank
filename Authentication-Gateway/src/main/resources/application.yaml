@@ -8,9 +8,9 @@ resilience4j:
   circuitbreaker:
     instances:
       registrationCB:
-#        record-exceptions:
-#          - feign.FeignException
-#          - org.springframework.web.client.HttpServerErrorException
+        record-exceptions:
+          - feign.FeignException
+          - org.springframework.web.client.HttpServerErrorException
         minimumNumberOfCalls: 1
         slidingWindowSize: 2
         waitDurationInOpenState: 2s
