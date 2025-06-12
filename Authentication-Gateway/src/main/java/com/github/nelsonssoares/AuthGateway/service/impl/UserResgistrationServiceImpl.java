@@ -3,7 +3,6 @@ package com.github.nelsonssoares.AuthGateway.service.impl;
 import com.github.nelsonssoares.AuthGateway.domain.dto.UserRequest;
 import com.github.nelsonssoares.AuthGateway.outlayers.gateways.UserGateway;
 import com.github.nelsonssoares.AuthGateway.service.UserResgistrationService;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
