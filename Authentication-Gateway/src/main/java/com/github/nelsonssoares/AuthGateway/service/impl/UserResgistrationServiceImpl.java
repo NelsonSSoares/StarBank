@@ -36,8 +36,7 @@ public class UserResgistrationServiceImpl implements UserResgistrationService {
     }
 
     public ResponseEntity<UserRequest> registerUserFallback(UserRequest userRequest, Throwable t) {
-
-
+        log.error("Fallback triggered for user registration: {}", t.getMessage());
 
         if(template.send("registration-topic", userRequest).isDone()){
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(userRequest);
