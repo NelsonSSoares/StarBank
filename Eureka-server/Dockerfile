@@ -1,3 +1,3 @@
 FROM eclipse-temurin:21-jdk
-COPY target/*.jar user-api.jar
-ENTRYPOINT ["java", "-jar", "user-api.jar"]
+COPY target/*.jar eureka-server.jar
+ENTRYPOINT ["java", "-jar", "eureka-server.jar"]
