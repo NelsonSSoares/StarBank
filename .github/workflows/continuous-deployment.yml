@@ -50,7 +50,7 @@ jobs:
         working-directory: ./
         run: docker compose build
 
-            - name: Tag Docker Images with Run ID
+      - name: Tag Docker Images with Run ID
         run: |
           docker tag ${{ secrets.DOCKER_USERNAME }}/userapi:latest ${{ secrets.DOCKER_USERNAME }}/userapi:${{ github.run_id }}
           docker tag ${{ secrets.DOCKER_USERNAME }}/authentication-gateway:latest ${{ secrets.DOCKER_USERNAME }}/authentication-gateway:${{ github.run_id }}
@@ -64,3 +64,4 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/userapi:${{ github.run_id }}
           docker push ${{ secrets.DOCKER_USERNAME }}/authentication-gateway:${{ github.run_id }}
           docker push ${{ secrets.DOCKER_USERNAME }}/eureka-server:${{ github.run_id }}
+
