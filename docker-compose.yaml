@@ -26,8 +26,14 @@ services:
     image: nelsonssoares/userapi
     build: ./userapi
     container_name: userapi
+    volumes:
+      - ./userapi/files/uploads:/app/files/uploads
+      - ./userapi/files/downloads:/app/files/downloads
     environment:
       TZ: America/Sao_Paulo
+      EMAIL_USERNAME: shadowdarkside2@gmail.com
+      EMAIL_PASSWORD: pnry ydzo tebr amkq
+      EMAIL_FROM: shadowdarkside2@gmail.com
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mydb
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 123456
