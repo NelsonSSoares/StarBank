@@ -25,7 +25,7 @@ spring:
     message: "Default Message"
     host: smtp.gmail.com
     port: 587
-    username: ${EMAIL_USERNAME}
+    username:  ${EMAIL_USERNAME}
     password: ${EMAIL_PASSWORD}
     from: ${EMAIL_FROM}
     properties:
