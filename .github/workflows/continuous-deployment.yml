@@ -3,13 +3,31 @@ name: Continuous Integration and Delivery with GitHub Actions
 on:
   push:
     branches: [ "master" ]
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    # Adiciona o serviço MySQL ao job de build
+    services:
+      mysql:
+        image: mysql:8.0 # Use a versão do MySQL que você precisa (ex: mysql:5.7, mysql:8.0)
+        env:
+          # É crucial usar variáveis de ambiente para o Docker para configurar o DB
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }} # Use GitHub Secrets!
+          MYSQL_DATABASE: userapi_db # O nome do seu banco de dados
+          MYSQL_USER: userapi_user   # O usuário que sua aplicação usará
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }} # Use GitHub Secrets!
+        ports:
+          - 3306:3306 # Mapeia a porta 3306 do contêiner para a porta 3306 do host do runner
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=15 # Aumente os retries para dar tempo ao MySQL iniciar completamente
+
     steps:
-      - name: Login to docker hub
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Login to Docker Hub
@@ -25,6 +43,29 @@ jobs:
           java-version: '21'
           cache: maven
 
+      - name: Wait for MySQL to be ready
+        run: |
+          echo "Waiting for MySQL to start..."
+          # O hostname 'mysql' é o nome do serviço definido no bloco 'services'
+          # Tenta conectar na porta 3306 do serviço 'mysql'
+          for i in `seq 1 30`; do
+            nc -zv mysql 3306 && break
+            echo "MySQL not ready yet, waiting 5 seconds..."
+            sleep 5
+          done
+          # Se a conexão falhar após as tentativas, falhe o job
+          nc -zv mysql 3306 || { echo "MySQL connection failed after multiple attempts!"; exit 1; }
+          echo "MySQL is ready!"
+
+      # Opcional: Para depuração, verifique as variáveis de ambiente que o Spring Boot pode ler
+      - name: Debug - Print database connection properties
+        run: |
+          echo "SPRING_DATASOURCE_URL: ${{ env.SPRING_DATASOURCE_URL }}"
+          echo "SPRING_DATASOURCE_USERNAME: ${{ env.SPRING_DATASOURCE_USERNAME }}"
+          # NÃO imprima a senha por segurança
+
+      # Para cada aplicação, você precisará garantir que as variáveis de ambiente corretas do DB
+      # sejam passadas para o mvn clean package, se elas forem usadas nos testes
       - name: Build Application Authentication-Gateway.jar
         working-directory: ./Authentication-Gateway
         run: mvn clean package
@@ -36,8 +77,14 @@ jobs:
       - name: Build Application userapi.jar
         working-directory: ./userapi
         run: mvn clean package
+        env:
+          # Estas variáveis de ambiente sobrescrevem as propriedades no application.properties/yml
+          # O hostname 'mysql' é o nome do serviço definido no bloco 'services'
+          SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${{ services.mysql.env.MYSQL_DATABASE }}?allowPublicKeyRetrieval=true&useSSL=false
+          SPRING_DATASOURCE_USERNAME: ${{ services.mysql.env.MYSQL_USER }}
+          SPRING_DATASOURCE_PASSWORD: ${{ services.mysql.env.MYSQL_PASSWORD }}
 
-      - name: Docker Compose Build 
+      - name: Docker Compose Build
         working-directory: ./
         run: docker compose build
 
@@ -51,3 +98,58 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/userapi:${{ github.run_id }}
           docker push ${{ secrets.DOCKER_USERNAME }}/authentication-gateway:${{ github.run_id }}
           docker push ${{ secrets.DOCKER_USERNAME }}/eureka-server:${{ github.run_id }}
+
+
+#name: Continuous Integration and Delivery with GitHub Actions
+#
+#on:
+#  push:
+#    branches: [ "master" ]
+#  
+#jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Login to docker hub
+#        uses: actions/checkout@v4
+#
+#      - name: Login to Docker Hub
+#        uses: docker/login-action@v3
+#        with:
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+#
+#      - name: Setup Java 21
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: 'temurin'
+#          java-version: '21'
+#          cache: maven
+#
+#      - name: Build Application Authentication-Gateway.jar
+#        working-directory: ./Authentication-Gateway
+#        run: mvn clean package
+#
+#      - name: Build Application Eureka-server.jar
+#        working-directory: ./Eureka-server
+#        run: mvn clean package
+#
+#      - name: Build Application userapi.jar
+#        working-directory: ./userapi
+#        run: mvn clean package
+#
+#      - name: Docker Compose Build 
+#        working-directory: ./
+#        run: docker compose build
+#
+#      - name: Push to DockerHub Container Registry
+#        run: |
+#          docker tag ${{ secrets.DOCKER_USERNAME }}/userapi:latest ${{ secrets.DOCKER_USERNAME }}/userapi:ghjid
+#
+#          docker push ${{ secrets.DOCKER_USERNAME }}/userapi:latest
+#          docker push ${{ secrets.DOCKER_USERNAME }}/authentication-gateway:latest
+#          docker push ${{ secrets.DOCKER_USERNAME }}/eureka-server:latest
+#          docker push ${{ secrets.DOCKER_USERNAME }}/userapi:${{ github.run_id }}
+#          docker push ${{ secrets.DOCKER_USERNAME }}/authentication-gateway:${{ github.run_id }}
+#          docker push ${{ secrets.DOCKER_USERNAME }}/eureka-server:${{ github.run_id }}
