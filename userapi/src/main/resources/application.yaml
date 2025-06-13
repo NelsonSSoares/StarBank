@@ -29,9 +29,6 @@ spring:
     message: "Default Message"
     host: smtp.gmail.com
     port: 587
-  #    username: shadowdarkside2@gmail.com
-  #    password: pnry ydzo tebr amkq
-  #    from: shadowdarkside2@gmail.com
     username: ${EMAIL_USERNAME}
     password: ${EMAIL_PASSWORD}
     from: ${EMAIL_FROM}
@@ -66,4 +63,4 @@ server:
   error:
     include-stacktrace: never
     include-exception: 'false'
-  port: ${PORT:0} #8080
+  port: 8082
