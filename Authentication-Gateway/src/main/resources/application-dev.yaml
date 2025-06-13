@@ -1,7 +1,7 @@
 feign:
   user-api:
     name: user-api
-    url: http://eureka-server:8765/starbank/users
+    url: http://localhost:8765/starbank/users
 cors:
   originsPatterns: http://localhost:8080 , http://localhost:4200
 server:
@@ -15,7 +15,7 @@ eureka:
     lease-expiration-duration-in-seconds: 90
     register-with-eureka: true
     service-url:
-      defaultZone: http://eureka-server:8761/eureka
+      defaultZone: http://localhost:8761/eureka
 spring:
   application:
     name: authentication-gateway
