@@ -1,4 +1,23 @@
-
+## Configuração do Eureka Client
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    fetch-registry: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+#Configuração de CORS
+cors:
+  originsPatterns: http://localhost:8080 , http://localhost:4200
+# Configuração para upload e download de arquivos
+file:
+  upload-dir: C:\Users\Nelson\OneDrive\Área de Trabalho\Projetos\SpringBoot\starbank\userapi\files
+  download-dir: C:\Users\Nelson\Downloads
+  max-file-size: 200MB
+  max-request-size: 215MB
 spring:
   # Configuração Spring Mail
   mail:
@@ -37,4 +56,4 @@ server:
   error:
     include-stacktrace: never
     include-exception: 'false'
- # port: ${PORT:0} #8080
+  port: ${PORT:0} #8080
