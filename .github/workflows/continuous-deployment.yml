@@ -24,10 +24,6 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: maven
-      
-      - name: Build Application userapi.jar
-        working-directory: ./userapi
-        run: mvn clean package
 
       - name: Build Application Authentication-Gateway.jar
         working-directory: ./Authentication-Gateway
@@ -35,6 +31,10 @@ jobs:
 
       - name: Build Application Eureka-server.jar
         working-directory: ./Eureka-server
+        run: mvn clean package
+
+      - name: Build Application userapi.jar
+        working-directory: ./userapi
         run: mvn clean package
 
       - name: Docker Compose Build 
