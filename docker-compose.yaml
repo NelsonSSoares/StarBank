@@ -15,7 +15,7 @@ services:
 
   eureka-server:
     image: nelsonssoares/eureka-server
-    build: ./eureka-server
+    build: ./Eureka-server
     container_name: eureka-server
     ports:
       - "8761:8761"
@@ -46,7 +46,7 @@ services:
 
   authentication-gateway:
     image: nelsonssoares/authentication-gateway
-    build: ./authentication-gateway
+    build: ./Authentication-Gateway
     container_name: authentication-gateway
     ports:
       - "8765:8765"
