@@ -1,3 +1,9 @@
+name: Continuous Integration and Delivery with GitHub Actions
+
+on:
+  push:
+    branches: [ "master" ]
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,7 +18,7 @@ jobs:
           - 3308:3308
 
     steps:
-      - name: Checkout repository
+      - name: Login to docker hub
         uses: actions/checkout@v4
 
       - name: Login to Docker Hub
@@ -41,6 +47,7 @@ jobs:
         run: mvn clean package
 
       - name: Docker Compose Build 
+        working-directory: ./
         run: docker compose build
 
       - name: Push to DockerHub Container Registry
