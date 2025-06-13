@@ -35,11 +35,11 @@ jobs:
           cache: maven
 
       - name: Build Application Authentication-Gateway.jar
-        working-directory: ./Authentication-Gateway
+        working-directory: ./authentication-gateway
         run: mvn clean package
 
       - name: Build Application Eureka-server.jar
-        working-directory: ./Eureka-server
+        working-directory: ./eureka-server
         run: mvn clean package
 
       - name: Build Application userapi.jar
