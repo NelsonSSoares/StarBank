@@ -66,4 +66,4 @@ server:
   error:
     include-stacktrace: never
     include-exception: 'false'
-  port: 8082
+  port: ${PORT:0} #8080
