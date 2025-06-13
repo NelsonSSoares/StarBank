@@ -52,18 +52,18 @@ spring:
     active: dev
   cloud:
     discovery:
-#  jpa:
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQLDialect
-#    hibernate:
-#      ddl-auto: update
-#  datasource:
-#    password: '123456'
-#    username: root
-#    url: jdbc:mysql://mysql:3306/mydb
-#server:
-#  error:
-#    include-stacktrace: never
-#    include-exception: 'false'
-#  port: 8082
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+  datasource:
+    password: '123456'
+    username: root
+    url: jdbc:mysql://mysql:3306/mydb
+server:
+  error:
+    include-stacktrace: never
+    include-exception: 'false'
+  port: 8082
